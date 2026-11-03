@@ -1,0 +1,289 @@
+<?php // phpcs:ignore SlevomatCodingStandard.TypeHints.DeclareStrictTypes.DeclareStrictTypesMissing
+
+namespace MailPoet\Form\Util;
+
+if (!defined('ABSPATH')) exit;
+
+
+use MailPoet\Entities\FormEntity;
+use MailPoet\Newsletter\Renderer\StylesHelper;
+use MailPoetVendor\Sabberworm\CSS\OutputFormat;
+use MailPoetVendor\Sabberworm\CSS\Parser as CSSParser;
+use MailPoetVendor\Sabberworm\CSS\Property\Declaration;
+use MailPoetVendor\Sabberworm\CSS\Property\Selector;
+
+class Styles {
+  public function prefixStyles($stylesheet, $prefix = '') {
+    if (!$stylesheet) return;
+    $styles = new CSSParser($stylesheet);
+    $styles = $styles->parse();
+    $outputFormat = OutputFormat::create();
+    $formattedStyles = [];
+    foreach ($styles->getAllDeclarationBlocks() as $styleDeclaration) {
+      $selectors = array_map(function(Selector $selector) use ($prefix, $outputFormat) {
+        return sprintf('%s %s', $prefix, $selector->render($outputFormat));
+      }, $styleDeclaration->getSelectors());
+      $selectors = implode(', ', $selectors);
+      $rules = array_map(function(Declaration $rule) use ($outputFormat) {
+        return $rule->render($outputFormat);
+      }, $styleDeclaration->getDeclarations());
+      $rules = sprintf('{ %s }', implode(' ', $rules));
+      $formattedStyles[] = sprintf('%s %s', $selectors, $rules);
+    }
+    // The parser decodes CSS escapes, so encode "<" again; "\3c " is the same character in CSS.
+    return str_replace('<', '\3c ', implode(PHP_EOL, $formattedStyles));
+  }
+
+  public function renderFormSettingsStyles(FormEntity $form, string $selector, string $displayType): string {
+    if (!is_array($form->getSettings())) return '';
+    $formSettings = $form->getSettings();
+    // Wrapper styles
+    $styles = [];
+
+    if (
+      isset($formSettings['border_size'])
+      && is_numeric($formSettings['border_size'])
+      && isset($formSettings['border_color'])
+      && self::isColorValue($formSettings['border_color'])
+    ) {
+      $styles[] = 'border: ' . $formSettings['border_size'] . 'px solid ' . $formSettings['border_color'];
+    }
+
+    if (isset($formSettings['border_radius']) && is_numeric($formSettings['border_radius'])) {
+      $styles[] = 'border-radius: ' . $formSettings['border_radius'] . 'px';
+    }
+
+    $backgrounds = [];
+    $mobileBackgrounds = [];
+    if (isset($formSettings['background_image_url']) && $formSettings['background_image_url']) {
+      $backgroundPosition = 'center';
+      $backgroundRepeat = 'no-repeat';
+      $backgroundSize = 'cover';
+      if (isset($formSettings['background_image_display']) && $formSettings['background_image_display'] === 'fit') {
+        $backgroundPosition = 'center top';
+        $backgroundSize = 'contain';
+      }
+      if (isset($formSettings['background_image_display']) && $formSettings['background_image_display'] === 'tile') {
+        $backgroundRepeat = 'repeat';
+        $backgroundSize = 'auto';
+      }
+      $backgroundImageUrl = StylesHelper::escapeCssUrl(trim($formSettings['background_image_url']));
+      $backgrounds[] = "url($backgroundImageUrl) $backgroundPosition / $backgroundSize $backgroundRepeat";
+    }
+
+    if (!empty($formSettings['gradient']) && self::isColorValue($formSettings['gradient'])) {
+      $backgrounds[] = trim($formSettings['gradient']);
+      $mobileBackgrounds[] = trim($formSettings['gradient']);
+    }
+
+    if (!empty($formSettings['backgroundColor']) && self::isColorValue($formSettings['backgroundColor'])) {
+      $backgrounds[] = trim($formSettings['backgroundColor']);
+      $mobileBackgrounds[] = trim($formSettings['backgroundColor']);
+    }
+
+    if ($backgrounds) {
+      $styles[] = 'background: ' . join(', ', $backgrounds);
+    }
+
+    if (isset($formSettings['fontColor']) && self::isColorValue($formSettings['fontColor'])) {
+      $styles[] = 'color: ' . trim($formSettings['fontColor']);
+    }
+
+    if (isset($formSettings['alignment']) && in_array($formSettings['alignment'], ['left', 'center', 'right'], true)) {
+      $styles[] = 'text-align: ' . $formSettings['alignment'];
+    }
+    $formWrapperStyles = $selector . '{' . join(';', $styles) . ';}';
+
+    // Media styles for mobile
+    $media = $this->getMobileStyles($selector, $displayType, $mobileBackgrounds);
+
+    // Form element styles
+    $formStyles = [];
+    if (isset($formSettings['form_padding']) && is_numeric($formSettings['form_padding'])) {
+      if (
+        in_array(
+          $displayType,
+          [FormEntity::DISPLAY_TYPE_POPUP, FormEntity::DISPLAY_TYPE_FIXED_BAR, FormEntity::DISPLAY_TYPE_SLIDE_IN]
+        )
+      ) {
+        $padding = $formSettings['form_padding'];
+        $media .= " @media (min-width: 500px) {{$selector} {padding: {$padding}px;}} ";
+      } else {
+        $formStyles[] = 'padding: ' . $formSettings['form_padding'] . 'px';
+      }
+    }
+    $formElementStyles = '';
+    if ($formStyles) {
+      $formElementStyles = $selector . ' form.mailpoet_form {' . join(';', $formStyles) . ';}';
+    }
+
+    // Width styles
+    $widthStyles = $this->renderWidthStyles($formSettings, $selector, $displayType);
+
+    $typeSpecificStyles = $this->getFormTypeSpecificStyles($selector, $displayType);
+
+    $messagesStyles = $this->renderFormMessageStyles($form, $selector);
+
+    $additionalStyles = $selector . ' .mailpoet_paragraph.last {margin-bottom: 0} ';
+    $media .= " @media (min-width: 500px) {{$selector} .last .mailpoet_paragraph:last-child {margin-bottom: 0}} ";
+    $media .= " @media (max-width: 500px) {{$selector} .mailpoet_form_column:last-child .mailpoet_paragraph:last-child {margin-bottom: 0}} ";
+
+    return $formWrapperStyles
+      . $formElementStyles
+      . $widthStyles
+      . $messagesStyles
+      . $typeSpecificStyles
+      . $additionalStyles
+      . $media;
+  }
+
+  private function renderWidthStyles(array $formSettings, string $selector, string $displayType): string {
+    $styles = [];
+
+    if (isset($formSettings['form_placement'][$displayType]['styles']['width'])) {
+      $width = $this->getWidthValue($formSettings['form_placement'][$displayType]['styles']['width']);
+    }
+
+    if ($displayType === FormEntity::DISPLAY_TYPE_POPUP) {
+      if (isset($width)) {
+        $styles[] = "width: $width";
+        $styles[] = "max-width: 100vw";
+      } else { // BC compatibilty
+        $styles[] = 'width: 560px';
+        $styles[] = 'max-width: 560px';
+      }
+    } elseif ($displayType === FormEntity::DISPLAY_TYPE_SLIDE_IN) {
+      if (isset($width)) {
+        $styles[] = "width: $width";
+        $styles[] = "max-width: 100vw";
+      } else { // BC compatibilty
+        $styles[] = 'max-width: 600px';
+        $styles[] = 'min-width: 350px';
+      }
+    } elseif ($displayType === FormEntity::DISPLAY_TYPE_FIXED_BAR) {
+      if (isset($width)) {
+        $styles[] = "width: $width";
+        $styles[] = "max-width: 100%";
+      } else { // BC compatibilty
+        $styles[] = 'max-width: 960px';
+      }
+    } elseif ($displayType === FormEntity::DISPLAY_TYPE_BELOW_POST) {
+      if (isset($width)) {
+        $styles[] = "width: $width";
+      }
+    } elseif ($displayType === FormEntity::DISPLAY_TYPE_OTHERS) {
+      if (isset($width)) {
+        $styles[] = "width: $width";
+      }
+    }
+
+    $widthSelector = $selector;
+    $widthSelector .= $displayType === FormEntity::DISPLAY_TYPE_FIXED_BAR ? ' form.mailpoet_form' : '';
+
+    if (!$styles) {
+      return '';
+    }
+    return $widthSelector . '{' . join(';', $styles) . ';}';
+  }
+
+  private function getWidthValue(array $width): ?string {
+    if (!isset($width['value']) || !is_numeric($width['value'])) {
+      return null;
+    }
+    return $width['value'] . (($width['unit'] ?? null) === 'percent' ? '%' : 'px');
+  }
+
+  public function renderFormMessageStyles(FormEntity $form, string $selector): string {
+    $formSettings = $form->getSettings();
+    if (!is_array($formSettings)) {
+      return '';
+    }
+    return $this->renderMessagesStyles($formSettings, $selector);
+  }
+
+  private function renderMessagesStyles(array $formSettings, string $selector): string {
+    $styles = "$selector .mailpoet_message {margin: 0; padding: 0 20px;}";
+    if (isset($formSettings['success_validation_color']) && self::isColorValue($formSettings['success_validation_color'])) {
+      $success = $formSettings['success_validation_color'];
+      $styles .= "
+        $selector .mailpoet_validate_success {color: $success}
+        $selector input.parsley-success {color: $success}
+        $selector select.parsley-success {color: $success}
+        $selector textarea.parsley-success {color: $success}
+      ";
+    }
+    if (isset($formSettings['error_validation_color']) && self::isColorValue($formSettings['error_validation_color'])) {
+      $error = $formSettings['error_validation_color'];
+      $styles .= "
+        $selector .mailpoet_validate_error {color: $error}
+        $selector input.parsley-error {color: $error}
+        $selector select.parsley-error {color: $error}
+        $selector textarea.textarea.parsley-error {color: $error}
+        $selector .parsley-errors-list {color: $error}
+        $selector .parsley-required {color: $error}
+        $selector .parsley-custom-error-message {color: $error}
+      ";
+    }
+    return $styles;
+  }
+
+  /**
+   * Accepts hex, named, rgb()/hsl() and var() colors; rejects anything that could end the declaration.
+   */
+  public static function isColorValue($color): bool {
+    if (!is_string($color) || !$color) {
+      return false;
+    }
+    $allowedCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#(),./%_- ';
+    return strspn($color, $allowedCharacters) === strlen($color);
+  }
+
+  /**
+   * Accepts a number or a value with a unit or preset, e.g. 1.5rem, 10px 0 or var(--wp--preset--font-size--large).
+   * @param mixed $size
+   */
+  public static function isSizeValue($size): bool {
+    return is_numeric($size) || self::isColorValue($size);
+  }
+
+  private function getFormTypeSpecificStyles(string $selector, string $displayType): string {
+    $styles = [];
+    if ($displayType === FormEntity::DISPLAY_TYPE_SLIDE_IN) {
+      $styles[] = $selector . '.mailpoet_form_slide_in { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }';
+      $styles[] = $selector . '.mailpoet_form_position_right { border-top-right-radius: 0; }';
+      $styles[] = $selector . '.mailpoet_form_position_left { border-top-left-radius: 0; }';
+    }
+    return join('', $styles);
+  }
+
+  private function getMobileStyles(string $selector, string $displayType, array $mobileBackgrounds): string {
+    $wrapperStyles = [];
+    if ($mobileBackgrounds) {
+      $wrapperStyles[] = 'background: ' . join(', ', $mobileBackgrounds) . ';';
+    } else {
+      $wrapperStyles[] = 'background-image: none;';
+    }
+    if (
+      in_array(
+        $displayType,
+        [FormEntity::DISPLAY_TYPE_POPUP, FormEntity::DISPLAY_TYPE_FIXED_BAR, FormEntity::DISPLAY_TYPE_SLIDE_IN]
+      )
+    ) {
+      $wrapperStyles = array_merge($wrapperStyles, [
+        'animation: none;',
+        'border: none;',
+        'border-radius: 0;',
+        'bottom: 0;',
+        'left: 0;',
+        'max-height: 40%;',
+        'padding: 20px;',
+        'right: 0;',
+        'top: auto;',
+        'transform: none;',
+        'width: 100%;',
+        'min-width: 100%;',
+      ]);
+    }
+    return "@media (max-width: 500px) {{$selector} {" . join('', $wrapperStyles) . "}}";
+  }
+}

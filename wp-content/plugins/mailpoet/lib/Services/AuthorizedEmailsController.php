@@ -1,0 +1,335 @@
+<?php // phpcs:ignore SlevomatCodingStandard.TypeHints.DeclareStrictTypes.DeclareStrictTypesMissing
+
+namespace MailPoet\Services;
+
+if (!defined('ABSPATH')) exit;
+
+
+use MailPoet\Entities\NewsletterEntity;
+use MailPoet\Mailer\Mailer;
+use MailPoet\Mailer\MailerError;
+use MailPoet\Mailer\MailerLog;
+use MailPoet\Newsletter\NewslettersRepository;
+use MailPoet\Services\Bridge\API;
+use MailPoet\Settings\SettingsController;
+use MailPoet\Util\Helpers;
+use MailPoet\WP\Functions as WPFunctions;
+
+class AuthorizedEmailsController {
+  const AUTHORIZED_EMAIL_ADDRESSES_ERROR_SETTING = 'authorized_emails_addresses_check';
+
+  const AUTHORIZED_EMAIL_ADDRESSES_API_TYPE_AUTHORIZED = 'authorized';
+  const AUTHORIZED_EMAIL_ADDRESSES_API_TYPE_PENDING = 'pending';
+  const AUTHORIZED_EMAIL_ADDRESSES_API_TYPE_ALL = 'all';
+  const AUTHORIZED_EMAIL_ERROR_ALREADY_AUTHORIZED = 'Email address is already authorized';
+  const AUTHORIZED_EMAIL_ERROR_PENDING_CONFIRMATION = 'Email address is pending confirmation';
+
+  const AUTHORIZED_EMAILS_KEY = 'mailpoet_authorized_email_addresses';
+  const AUTHORIZED_EMAILS_RELOAD_FAILED_KEY = 'mailpoet_authorized_email_addresses_reload_failed';
+
+  /** @var Bridge */
+  private $bridge;
+
+  /** @var SettingsController */
+  private $settings;
+
+  /** @var NewslettersRepository */
+  private $newslettersRepository;
+
+  /** @var AuthorizedSenderDomainController */
+  private $senderDomainController;
+
+  /** @var WPFunctions */
+  private $wp;
+
+  private $automaticEmailTypes = [
+    NewsletterEntity::TYPE_WELCOME,
+    NewsletterEntity::TYPE_NOTIFICATION,
+    NewsletterEntity::TYPE_AUTOMATIC,
+    NewsletterEntity::TYPE_AUTOMATION,
+    NewsletterEntity::TYPE_AUTOMATION_TRANSACTIONAL,
+  ];
+
+  public function __construct(
+    SettingsController $settingsController,
+    Bridge $bridge,
+    NewslettersRepository $newslettersRepository,
+    AuthorizedSenderDomainController $senderDomainController,
+    WPFunctions $wp
+  ) {
+    $this->settings = $settingsController;
+    $this->bridge = $bridge;
+    $this->newslettersRepository = $newslettersRepository;
+    $this->senderDomainController = $senderDomainController;
+    $this->wp = $wp;
+  }
+
+  public function setFromEmailAddress(string $address) {
+    // Bundled subscription users who are small senders skip authorization
+    if ($this->senderDomainController->shouldSkipAuthorization()) {
+      $this->settings->set('sender.address', $address);
+      $this->settings->set(self::AUTHORIZED_EMAIL_ADDRESSES_ERROR_SETTING, null);
+      return;
+    }
+
+    $authorizedEmails = $this->getAuthorizedEmailAddressesIgnoringCache();
+    $verifiedDomains = $this->senderDomainController->getVerifiedSenderDomainsIgnoringCache();
+    $isAuthorized = $this->validateAuthorizedEmail($authorizedEmails, $address);
+
+    $emailDomainIsVerified = $this->validateEmailDomainIsVerified($verifiedDomains, $address);
+
+    if (!$emailDomainIsVerified && !$isAuthorized) {
+      throw new \InvalidArgumentException("Email address '$address' is not authorized");
+    }
+
+    // update FROM address in settings & all scheduled and active emails
+    $this->settings->set('sender.address', $address);
+    $result = $this->validateAddressesInScheduledAndAutomaticEmails($authorizedEmails, $verifiedDomains);
+    foreach ($result['invalid_senders_in_newsletters'] ?? [] as $item) {
+      $newsletter = $this->newslettersRepository->findOneById((int)$item['newsletter_id']);
+      if ($newsletter) {
+        $newsletter->setSenderAddress($address);
+      }
+    }
+    $this->newslettersRepository->flush();
+    $this->settings->set(self::AUTHORIZED_EMAIL_ADDRESSES_ERROR_SETTING, null);
+  }
+
+  public function getAuthorizedEmailAddresses(string $type = 'authorized'): array {
+    return $this->pickType($this->getAllEmailData(true), $type);
+  }
+
+  public function getAuthorizedEmailAddressesIgnoringCache(string $type = 'authorized'): array {
+    return $this->pickType($this->getAllEmailData(false), $type);
+  }
+
+  public function clearCache(): void {
+    $this->wp->deleteTransient(self::AUTHORIZED_EMAILS_KEY);
+    $this->wp->deleteTransient(self::AUTHORIZED_EMAILS_RELOAD_FAILED_KEY);
+  }
+
+  private function getAllEmailData(bool $useCache): array {
+    if ($useCache) {
+      $cached = $this->wp->getTransient(self::AUTHORIZED_EMAILS_KEY);
+      $cached = is_array($cached) ? $cached : null;
+      // A pending address can be confirmed at any time, so it forces a fresh read.
+      if ($cached !== null && empty($cached[self::AUTHORIZED_EMAIL_ADDRESSES_API_TYPE_PENDING])) {
+        return $cached;
+      }
+      if ($this->wp->getTransient(self::AUTHORIZED_EMAILS_RELOAD_FAILED_KEY)) {
+        return $cached ?? [];
+      }
+    }
+
+    $data = $this->bridge->getAuthorizedEmailAddresses();
+    if (is_array($data)) {
+      $this->wp->deleteTransient(self::AUTHORIZED_EMAILS_RELOAD_FAILED_KEY);
+      $this->wp->setTransient(self::AUTHORIZED_EMAILS_KEY, $data, WEEK_IN_SECONDS);
+      return $data;
+    }
+
+    $this->wp->setTransient(self::AUTHORIZED_EMAILS_RELOAD_FAILED_KEY, 1, 5 * 60);
+    // API is potentially down, fallback to cache
+    $cached = $this->wp->getTransient(self::AUTHORIZED_EMAILS_KEY);
+    return is_array($cached) ? $cached : [];
+  }
+
+  private function pickType(array $data, string $type): array {
+    if ($type === self::AUTHORIZED_EMAIL_ADDRESSES_API_TYPE_ALL) {
+      return $data;
+    }
+    return $data[$type] ?? [];
+  }
+
+  public function createAuthorizedEmailAddress(string $email): array {
+    $allEmails = $this->getAuthorizedEmailAddressesIgnoringCache(self::AUTHORIZED_EMAIL_ADDRESSES_API_TYPE_ALL);
+
+    $authorizedEmails = isset($allEmails[self::AUTHORIZED_EMAIL_ADDRESSES_API_TYPE_AUTHORIZED]) ? $allEmails[self::AUTHORIZED_EMAIL_ADDRESSES_API_TYPE_AUTHORIZED] : [];
+    $isAuthorized = $this->validateAuthorizedEmail($authorizedEmails, $email);
+
+    if ($isAuthorized) {
+      throw new \InvalidArgumentException(self::AUTHORIZED_EMAIL_ERROR_ALREADY_AUTHORIZED);
+    }
+
+    $pendingEmails = isset($allEmails[self::AUTHORIZED_EMAIL_ADDRESSES_API_TYPE_PENDING]) ? $allEmails[self::AUTHORIZED_EMAIL_ADDRESSES_API_TYPE_PENDING] : [];
+    $isPending = $this->validateAuthorizedEmail($pendingEmails, $email);
+
+    if ($isPending) {
+      throw new \InvalidArgumentException(self::AUTHORIZED_EMAIL_ERROR_PENDING_CONFIRMATION);
+    }
+
+    $response = $this->bridge->createAuthorizedEmailAddress($email);
+    if ($response['status'] === API::RESPONSE_STATUS_ERROR) {
+      throw new \InvalidArgumentException($response['message']);
+    }
+
+    $this->getAuthorizedEmailAddressesIgnoringCache();
+    return $response;
+  }
+
+  public function isEmailAddressAuthorized(string $email): bool {
+    $authorizedEmails = $this->getAuthorizedEmailAddressesIgnoringCache();
+    return $this->validateAuthorizedEmail($authorizedEmails, $email);
+  }
+
+  public function checkAuthorizedEmailAddresses() {
+    if (!$this->bridge->isMailpoetSendingServiceEnabled()) {
+      $this->settings->set(self::AUTHORIZED_EMAIL_ADDRESSES_ERROR_SETTING, null);
+      $this->updateMailerLog();
+      return null;
+    }
+
+    // Bundled subscription users who are small senders skip authorization
+    if ($this->senderDomainController->shouldSkipAuthorization()) {
+      $this->settings->set(self::AUTHORIZED_EMAIL_ADDRESSES_ERROR_SETTING, null);
+      $this->updateMailerLog();
+      return null;
+    }
+
+    $authorizedEmails = $this->getAuthorizedEmailAddressesIgnoringCache();
+    // Keep previous check result for an invalid response from API
+    if (!$authorizedEmails) {
+      return null;
+    }
+    $authorizedEmails = array_map('strtolower', $authorizedEmails);
+
+    $verifiedDomains = $this->senderDomainController->getVerifiedSenderDomainsIgnoringCache();
+
+    $result = [];
+    $result = $this->validateAddressesInSettings($authorizedEmails, $verifiedDomains, $result);
+    $result = $this->validateAddressesInScheduledAndAutomaticEmails($authorizedEmails, $verifiedDomains, $result);
+    $this->settings->set(self::AUTHORIZED_EMAIL_ADDRESSES_ERROR_SETTING, $result ?: null);
+    $this->updateMailerLog($result);
+    return $result;
+  }
+
+  public function onSettingsSave($settings): ?array {
+    $senderAddressSet = !empty($settings['sender']['address']);
+    $mailpoetSendingMethodSet = ($settings[Mailer::MAILER_CONFIG_SETTING_NAME]['method'] ?? null) === Mailer::METHOD_MAILPOET;
+    if ($senderAddressSet || $mailpoetSendingMethodSet) {
+      return $this->checkAuthorizedEmailAddresses();
+    }
+    return null;
+  }
+
+  public function onNewsletterSenderAddressUpdate(NewsletterEntity $newsletter, ?string $oldSenderAddress = null) {
+    if ($newsletter->getSenderAddress() === $oldSenderAddress) {
+      return;
+    }
+    if ($newsletter->getType() === NewsletterEntity::TYPE_STANDARD && $newsletter->getStatus() === NewsletterEntity::STATUS_SCHEDULED) {
+      $this->checkAuthorizedEmailAddresses();
+    }
+    if (in_array($newsletter->getType(), $this->automaticEmailTypes, true) && $newsletter->getStatus() === NewsletterEntity::STATUS_ACTIVE) {
+      $this->checkAuthorizedEmailAddresses();
+    }
+  }
+
+  /**
+   * Contexts:
+   * - 'activation': new campaign, fresh domain data, no allowance when the Bridge returns nothing.
+   * - 'sending': existing campaign, cached domain data; allowed when the list is empty and there is no cache.
+   * - 'resume': existing campaign, fresh domain data requested by a user action (always asks the Bridge); allowed when the reload failed.
+   * - 'recheck': like 'resume' for background work; skips the Bridge for a few minutes after a failed reload.
+   * When the Bridge has no data the Sending Service decides.
+   *
+   * $requireVerifiedDomain only affects the 'resume' context. It skips the subscriber count requirement,
+   * because the Sending Service may have paused the campaign using its own subscriber count.
+   */
+  public function isSenderAddressValid(NewsletterEntity $newsletter, string $context = 'activation', bool $requireVerifiedDomain = false): bool {
+    if (!in_array($newsletter->getType(), NewsletterEntity::CAMPAIGN_TYPES)) {
+      return true;
+    }
+
+    if ($context === 'activation') {
+      $isAuthorizedDomainRequired = $this->senderDomainController->isAuthorizedDomainRequiredForNewCampaigns();
+    } elseif ($context === 'resume' && $requireVerifiedDomain) {
+      $isAuthorizedDomainRequired = !$this->senderDomainController->shouldSkipAuthorization()
+        && $this->settings->get('mta.method') === Mailer::METHOD_MAILPOET;
+    } else {
+      $isAuthorizedDomainRequired = $this->senderDomainController->isAuthorizedDomainRequiredForExistingCampaigns();
+    }
+
+    if (!$isAuthorizedDomainRequired) {
+      return true;
+    }
+
+    $verifiedDomains = $context === 'sending'
+      ? $this->senderDomainController->getVerifiedSenderDomains()
+      : $this->senderDomainController->getVerifiedSenderDomainsIgnoringCache($context === 'recheck');
+
+    if ($context === 'sending' && empty($verifiedDomains) && !$this->senderDomainController->isCacheAvailable()) {
+      return true;
+    }
+    if (in_array($context, ['resume', 'recheck'], true) && $this->senderDomainController->isLastReloadFailed()) {
+      return true;
+    }
+
+    return $this->validateEmailDomainIsVerified($verifiedDomains, $newsletter->getSenderAddress());
+  }
+
+  private function validateAddressesInSettings($authorizedEmails, $verifiedDomains, $result = []) {
+    $defaultSenderAddress = $this->settings->get('sender.address');
+
+    if ($this->validateEmailDomainIsVerified($verifiedDomains, $defaultSenderAddress)) {
+      // allow sending from any email address in a verified domain
+      return $result;
+    }
+
+    if (!$this->validateAuthorizedEmail($authorizedEmails, $defaultSenderAddress)) {
+      $result['invalid_sender_address'] = $defaultSenderAddress;
+    }
+
+    return $result;
+  }
+
+  private function validateAddressesInScheduledAndAutomaticEmails($authorizedEmails, $verifiedDomains, $result = []) {
+    $newsletters = $this->newslettersRepository->getScheduledStandardEmailsAndActiveAutomaticEmails($this->automaticEmailTypes);
+
+    $invalidSendersInNewsletters = [];
+    foreach ($newsletters as $newsletter) {
+      if ($this->validateAuthorizedEmail($authorizedEmails, $newsletter->getSenderAddress())) {
+        continue;
+      }
+      if ($this->validateEmailDomainIsVerified($verifiedDomains, $newsletter->getSenderAddress())) {
+        // allow sending from any email address in a verified domain
+        continue;
+      }
+      $invalidSendersInNewsletters[] = [
+        'newsletter_id' => $newsletter->getId(),
+        'subject' => $newsletter->getSubject(),
+        'sender_address' => $newsletter->getSenderAddress(),
+      ];
+    }
+
+    if (!count($invalidSendersInNewsletters)) {
+      return $result;
+    }
+
+    $result['invalid_senders_in_newsletters'] = $invalidSendersInNewsletters;
+    return $result;
+  }
+
+  /**
+   * @param array|null $error
+   */
+  private function updateMailerLog(?array $error = null) {
+    if ($error) {
+      return;
+    }
+    $mailerLogError = MailerLog::getError();
+    if ($mailerLogError && $mailerLogError['operation'] === MailerError::OPERATION_AUTHORIZATION) {
+      MailerLog::resumeSending();
+    }
+  }
+
+  private function validateAuthorizedEmail($authorizedEmails = [], $email = '') {
+    $lowercaseAuthorizedEmails = array_map('strtolower', $authorizedEmails);
+    return in_array(strtolower($email), $lowercaseAuthorizedEmails, true);
+  }
+
+  private function validateEmailDomainIsVerified(array $verifiedDomains = [], string $email = ''): bool {
+    $lowercaseVerifiedDomains = array_map('strtolower', $verifiedDomains);
+    $emailDomain = Helpers::extractEmailDomain($email);
+    return in_array($emailDomain, $lowercaseVerifiedDomains, true);
+  }
+}

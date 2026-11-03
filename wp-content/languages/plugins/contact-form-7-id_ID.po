@@ -1,0 +1,1248 @@
+# Translation of Plugins - Contact Form 7 - Stable (latest release) in Indonesian
+# This file is distributed under the same license as the Plugins - Contact Form 7 - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2025-08-05 08:34:12+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/4.1.0\n"
+"Language: id\n"
+"Project-Id-Version: Plugins - Contact Form 7 - Stable (latest release)\n"
+
+#: includes/rest-api.php:366
+msgid "There is no valid unit tag."
+msgstr "Tidak ada tag unit yang valid."
+
+#: modules/sendinblue/service.php:177
+msgid "Brevo integration"
+msgstr "Integrasi Brevo"
+
+#. translators: 1: blog name, 2: blog URL
+#: includes/contact-form-template.php:113
+msgid "This email is a receipt for your contact form submission on our website (%1$s %2$s) in which your email address was used. If that was not you, please ignore this message."
+msgstr "Email ini adalah tanda terima pengiriman formulir kontak Anda di situs web kami (%1$s %2$s) yang menggunakan alamat email Anda. Jika itu bukan Anda, harap abaikan pesan ini."
+
+#. translators: 1: blog name, 2: blog URL
+#: includes/contact-form-template.php:79
+msgid "This is a notification that a contact form was submitted on your website (%1$s %2$s)."
+msgstr "Ini adalah pemberitahuan bahwa formulir kontak telah dikirimkan di situs web Anda (%1$s %2$s)."
+
+#: includes/config-validator/mail.php:236
+#: includes/config-validator/mail.php:326
+msgid "Unsafe email config is used without sufficient protection."
+msgstr "Konfigurasi email yang tidak aman digunakan tanpa perlindungan yang memadai."
+
+#: includes/config-validator/validator.php:239
+msgid "Configuration error is detected."
+msgstr "Kesalahan konfigurasi terdeteksi."
+
+#: modules/sendinblue/contact-form-properties.php:85
+#: modules/sendinblue/contact-form-properties.php:119
+#: modules/sendinblue/service.php:30
+msgid "Brevo"
+msgstr "Brevo"
+
+#: modules/sendinblue/service.php:189
+msgid "Brevo is active on this site."
+msgstr "Brevo sudah aktif di situs ini."
+
+#: includes/contact-form-functions.php:273 includes/contact-form.php:573
+#: includes/js/index.js:1
+msgid "Error:"
+msgstr "Eror:"
+
+#: includes/contact-form-functions.php:274
+msgid "Contact form not found."
+msgstr "Formulir kontak tidak ditemukan."
+
+#: modules/akismet/service.php:77
+msgid "Akismet is active on this site."
+msgstr "Akismet aktif di situs ini."
+
+#: includes/block-editor/block.json
+msgctxt "block keyword"
+msgid "form"
+msgstr "formulir"
+
+#: includes/block-editor/block.json
+msgctxt "block description"
+msgid "Insert a contact form you have created with Contact Form 7."
+msgstr "Sisipkan formulir kontak yang telah Anda buat dengan Contact Form 7."
+
+#: modules/akismet/service.php:54
+msgid "CAPTCHAs are designed to distinguish spambots from humans, and are therefore helpless against human spammers. In contrast to CAPTCHAs, Akismet checks form submissions against the global database of spam; this means Akismet is a comprehensive solution against spam. This is why we consider Akismet to be the centerpiece of the spam prevention strategy."
+msgstr "CAPTCHA dirancang untuk membedakan spambot dari manusia, dan oleh karena itu tidak berdaya melawan spammer manusia. Berbeda dengan CAPTCHA, Akismet memeriksa kiriman formulir terhadap basis data global spam; ini berarti Akismet adalah solusi komprehensif melawan spam. Inilah mengapa kami menganggap Akismet sebagai inti dari strategi pencegahan spam."
+
+#: modules/select.php:88
+msgid "&#8212;Please choose an option&#8212;"
+msgstr "&#8212;Silakan pilih salah satu opsi &#8212;"
+
+#: includes/block-editor/block.json
+msgctxt "block title"
+msgid "Contact Form 7"
+msgstr "Contact Form 7"
+
+#: includes/contact-form.php:647
+msgid "Contact form"
+msgstr "Formulir Kontak"
+
+#: modules/akismet/akismet.php:307
+msgid "Learn how your data is processed."
+msgstr "Pelajari bagaimana data Anda diproses."
+
+#: modules/akismet/akismet.php:304
+msgid "This form uses Akismet to reduce spam."
+msgstr "Formulir ini menggunakan Akismet untuk mengurangi spam."
+
+#: includes/config-validator/form.php:71
+msgid "Colons are used in form-tag names."
+msgstr "Titik dua digunakan untuk nama form-tag."
+
+#: modules/text.php:188
+msgid "Please enter a URL."
+msgstr "Mohon masukkan URL."
+
+#: modules/text.php:195
+msgid "Please enter a telephone number."
+msgstr "Mohon masukkan nomor telepon."
+
+#: modules/date.php:161
+msgid "Please enter a date in YYYY-MM-DD format."
+msgstr "Mohon masukkan tanggal dalam format TTTT-BB-HH."
+
+#: modules/number.php:179
+msgid "Please enter a number."
+msgstr "Mohon masukkan nomor."
+
+#: includes/file.php:105
+msgid "The uploaded file is too large."
+msgstr "Berkas yang diunggah terlalu besar."
+
+#: modules/text.php:181
+msgid "Please enter an email address."
+msgstr "Mohon masukkan alamat e-mail."
+
+#: includes/contact-form-template.php:191
+msgid "Please fill out this field."
+msgstr "Mohon isi ruas ini."
+
+#: includes/contact-form-template.php:196
+msgid "This field has a too long input."
+msgstr "Ruas ini memiliki input terlalu panjang."
+
+#: includes/contact-form-template.php:201
+msgid "This field has a too short input."
+msgstr "Ruas ini memiliki input terlalu pendek."
+
+#: modules/number.php:189
+msgid "This field has a too large number."
+msgstr "Ruas ini memiliki angka terlalu besar."
+
+#: modules/number.php:184
+msgid "This field has a too small number."
+msgstr "Ruas ini memiliki angka terlalu kecil."
+
+#: includes/rest-api.php:340
+msgid "The request payload format is not supported."
+msgstr "Format request payload tidak didukung."
+
+#. translators: 1: WordPress hook name, 2: version number
+#: includes/functions.php:539
+msgid "Hook %1$s is <strong>deprecated</strong> since Contact Form 7 version %2$s with no alternative available."
+msgstr "Hook %1$s <strong>tidak digunakan lagi</strong> sejak Formulir Kontak 7 versi %2$s tanpa adanya alternatif yang tersedia."
+
+#: modules/date.php:171
+msgid "This field has a too late date."
+msgstr "Ruas ini memiliki tanggal yang telah lampau."
+
+#: modules/date.php:166
+msgid "This field has a too early date."
+msgstr "Bidang ini memiliki tanggal yang terlalu dini."
+
+#. translators: 1: PHP function name, 2: version number, 3: alternative
+#. function name
+#: includes/functions.php:495
+msgid "Function %1$s is <strong>deprecated</strong> since Contact Form 7 version %2$s! Use %3$s instead."
+msgstr "Fungsi %1$s telah <strong>usang</strong> sejak Contact Form 7 versi %2$s! Gunakan %3$s sebagai gantinya."
+
+#: includes/integration.php:27
+msgid "Spam protection"
+msgstr "Proteksi spam"
+
+#. translators: Developer debugging message. 1: PHP function name, 2:
+#. Explanatory message, 3: Contact Form 7 version number.
+#: includes/functions.php:579
+msgid "Function %1$s was called incorrectly. %2$s %3$s"
+msgstr "Fungsi %1$s dipanggil secara tidak benar. %2$s %3$s"
+
+#. translators: %s: blog name
+#: modules/sendinblue/doi.php:79
+msgid "Opt-in confirmation from %s"
+msgstr "Konfirmasi pilih masuk dari %s"
+
+#. translators: 1: blog name, 2: confirmation link
+#: modules/sendinblue/doi.php:85
+msgid ""
+"Hello,\n"
+"\n"
+"This is a confirmation email sent from %1$s.\n"
+"\n"
+"We have received your submission to our web form, according to which you have allowed us to add you to our contact list. But, the process has not yet been completed. To complete it, please click the following link.\n"
+"\n"
+"%2$s\n"
+"\n"
+"If it was not your intention, or if you have no idea why you received this message, please do not click on the link, and ignore this message. We will never collect or use your personal data without your clear consent.\n"
+"\n"
+"Sincerely,\n"
+"%1$s"
+msgstr ""
+"Halo,\n"
+"\n"
+"Ini adalah e-mail konfirmasi yang dikirim dari %1$s.\n"
+"\n"
+"Kami telah menerima kiriman Anda ke formulir web kami, yang berarti Anda mengizinkan kami untuk menambahkan Anda ke daftar kontak kami. Tapi, prosesnya belum selesai. Untuk melengkapinya, silakan klik tautan berikut.\n"
+"\n"
+"%2$s\n"
+"\n"
+"Jika itu bukan keinginan Anda, atau jika Anda tidak tahu mengapa Anda menerima pesan ini, jangan klik tautan tersebut, dan abaikan pesan ini. Kami tidak akan mengumpulkan atau menggunakan data pribadi Anda tanpa persetujuan yang jelas dari Anda.\n"
+"\n"
+"Dengan hormat,\n"
+"%1$s"
+
+#: modules/stripe/stripe.php:382
+msgid "Complete payment"
+msgstr "Selesaikan pembayaran"
+
+#: modules/stripe/stripe.php:367
+msgid "Proceed to checkout"
+msgstr "Lanjutkan ke pembayaran"
+
+#: modules/stripe/stripe.php:251
+msgid "Payment is required. Please pay by credit card."
+msgstr "Pembayaran diperlukan. Silakan lakukan pembayaran dengan kartu kredit."
+
+#: includes/integration.php:29
+msgid "Payments"
+msgstr "Pembayaran"
+
+#: modules/stripe/service.php:196
+msgid "Stripe is active on this site."
+msgstr "Stripe aktif di situs ini."
+
+#: modules/stripe/service.php:184
+msgid "Stripe integration"
+msgstr "Integrasi Stripe"
+
+#: modules/stripe/service.php:38
+msgid "Stripe"
+msgstr "Stripe"
+
+#: modules/stripe/service.php:252
+msgid "Publishable Key"
+msgstr "Kunci yang dapat dipublikasikan"
+
+#. translators: 1: first name, 2: last name
+#: modules/sendinblue/sendinblue.php:124
+msgctxt "personal name"
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#: includes/config-validator/form.php:59
+msgid "Dots are used in form-tag names."
+msgstr "Titik-titik digunakan di nama-nama form-tag."
+
+#: modules/stripe/service.php:225
+msgid "Stripe is not available on this site. It requires an HTTPS-enabled site."
+msgstr "Stripe tidak tersedia di situs ini. Stripe membutuhkan situs yang mendukung HTTPS."
+
+#: includes/rest-api.php:519
+msgid "Unique identifier for the contact form."
+msgstr "Pengidentifikasi unik untuk formulir kontak."
+
+#: admin/admin.php:85 admin/integration.php:31
+msgid "Integration with External API"
+msgstr "Integrasi dengan API Eksternal"
+
+#: modules/sendinblue/contact-form-properties.php:421
+msgid "&mdash; Select &mdash;"
+msgstr "&mdash; Pilih &mdash;"
+
+#: modules/sendinblue/contact-form-properties.php:366
+msgid "Manage your contact lists"
+msgstr "Kelola daftar kontak Anda"
+
+#: modules/sendinblue/contact-form-properties.php:351
+msgid "You have no contact list yet."
+msgstr "Anda belum memiliki daftar kontak."
+
+#: modules/sendinblue/service.php:128
+msgid "You have not been authenticated. Make sure the provided API key is correct."
+msgstr "Anda belum diautentikasi. Pastikan kunci API yang disediakan sudah benar."
+
+#: modules/sendinblue/service.php:251
+msgid "Save changes"
+msgstr "Simpan perubahan"
+
+#: modules/sendinblue/service.php:226
+msgid "API key"
+msgstr "Kunci API"
+
+#: modules/recaptcha/service.php:331 modules/sendinblue/service.php:208
+#: modules/stripe/service.php:215 modules/turnstile/service.php:311
+msgid "Setup integration"
+msgstr "Pengaturan integrasi"
+
+#: includes/mail.php:316
+msgid "Failed to attach a file. The total file size exceeds the limit of 25 megabytes."
+msgstr "Gagal melampirkan berkas. Ukuran berkas total melebihi batas 25 megabyte."
+
+#. translators: %s: Attachment file path.
+#: includes/mail.php:296
+msgid "Failed to attach a file. %s is not a readable file."
+msgstr "Gagal melampirkan berkas. %s bukan berkas yang dapat dibaca."
+
+#. translators: %s: Attachment file path.
+#: includes/mail.php:282
+msgid "Failed to attach a file. %s is not in the allowed directory."
+msgstr "Gagal melampirkan berkas. %s tidak berada dalam direktori yang diizinkan."
+
+#: modules/sendinblue/service.php:247
+msgctxt "API keys"
+msgid "Remove key"
+msgstr "Hapus kunci"
+
+#: modules/sendinblue/contact-form-properties.php:458
+msgid "Manage your email templates"
+msgstr "Kelola template e-mail Anda"
+
+#: modules/sendinblue/contact-form-properties.php:443
+msgid "You have no active email template yet."
+msgstr "Anda belum memiliki template e-mail aktif."
+
+#: modules/sendinblue/contact-form-properties.php:406
+msgid "Select an email template:"
+msgstr "Pilih template e-mail:"
+
+#: modules/sendinblue/contact-form-properties.php:254
+msgid "Send a welcome email to new contacts"
+msgstr "Kirim e-mail selamat datang ke kontak baru"
+
+#: modules/sendinblue/contact-form-properties.php:224
+#: modules/sendinblue/contact-form-properties.php:236
+msgid "Welcome email"
+msgstr "E-mail selamat datang"
+
+#: modules/sendinblue/contact-form-properties.php:321
+msgid "Select lists to which contacts are added:"
+msgstr "Pilih daftar yang akan ditambahkan kontak:"
+
+#: modules/sendinblue/contact-form-properties.php:187
+msgid "Add form submitters to your contact lists"
+msgstr "Tambahkan pengirim formulir ke daftar kontak Anda"
+
+#: modules/sendinblue/contact-form-properties.php:157
+#: modules/sendinblue/contact-form-properties.php:169
+msgid "Contact lists"
+msgstr "Daftar Kontak"
+
+#: modules/sendinblue/service.php:166
+msgid "Store and organize your contacts while protecting user privacy on Brevo, the leading CRM & email marketing platform in Europe. Brevo offers unlimited contacts and advanced marketing features."
+msgstr "Simpan dan atur kontak Anda sekaligus melindungi privasi pengguna di Brevo, platform CRM & pemasaran e-mail terkemuka di Eropa. Brevo menawarkan kontak tak terbatas dan fitur pemasaran tingkat lanjut."
+
+#: includes/contact-form-template.php:44
+msgid "Submit"
+msgstr "Kirim"
+
+#: includes/contact-form-template.php:39
+msgid "(optional)"
+msgstr "(opsional)"
+
+#. translators: %s: comma separated list of disallowed words
+#: modules/disallowed-list.php:43
+msgid "Disallowed words (%s) are used."
+msgstr "Kata-kata yang dilarang (%s) digunakan."
+
+#: modules/disallowed-list.php:39
+msgid "Disallowed words are used."
+msgstr "Kata-kata yang dilarang digunakan."
+
+#: includes/special-mail-tags.php:25 includes/special-mail-tags.php:107
+#: includes/special-mail-tags.php:173 includes/special-mail-tags.php:242
+#: modules/flamingo.php:313
+msgid "The fourth parameter ($mail_tag) must be an instance of the WPCF7_MailTag class."
+msgstr "Parameter keempat ($mail_tag) harus berupa instance dari class WPCF7_MailTag."
+
+#. translators: %s: Contact Form 7 version number.
+#: includes/functions.php:570
+msgid "(This message was added in Contact Form 7 version %s.)"
+msgstr "(Pesan ini ditambahkan dalam Contact Form 7 Versi %s.)"
+
+#. translators: time format, see https://www.php.net/date
+#: admin/includes/list-table.php:325
+msgid "g:i a"
+msgstr "g:i a"
+
+#. translators: 1: date, 2: time
+#: admin/includes/list-table.php:321
+msgid "%1$s at %2$s"
+msgstr "%1$s di %2$s"
+
+#: modules/sendinblue/service.php:127 modules/sendinblue/service.php:138
+msgid "Error"
+msgstr "Eror"
+
+#: includes/config-validator/form.php:47
+msgid "Unavailable HTML elements are used in the form template."
+msgstr "Elemen HTML yang tidak tersedia dipakai di template formulir."
+
+#: includes/config-validator/mail.php:439
+msgid "The total size of attachment files is too large."
+msgstr "Total ukuran berkas lampiran terlalu besar."
+
+#: modules/recaptcha/service.php:312
+msgid "reCAPTCHA is active on this site."
+msgstr "reCAPTCHA aktif di situs ini."
+
+#: modules/recaptcha/recaptcha.php:150
+msgid "reCAPTCHA response token is empty."
+msgstr "Token respons reCAPTCHA kosong."
+
+#: modules/akismet/akismet.php:86
+msgid "Akismet returns a spam response."
+msgstr "Akismet mengembalikan respons spam."
+
+#: includes/submission.php:662
+msgid "Submitted nonce is invalid."
+msgstr "Nonce yang dikirimkan tidak valid."
+
+#: includes/submission.php:653
+msgid "User-Agent string is unnaturally short."
+msgstr "String User-Agent terlalu pendek."
+
+#. translators: 1: value of reCAPTCHA score 2: value of reCAPTCHA threshold
+#: modules/recaptcha/recaptcha.php:157
+msgid "reCAPTCHA score (%1$.2f) is lower than the threshold (%2$.2f)."
+msgstr "Skor reCAPTCHA (%1$.2f) lebih rendah dari ambang batas (%2$.2f)."
+
+#: modules/constant-contact/constant-contact.php:206
+#: modules/recaptcha/service.php:392 modules/stripe/service.php:290
+#: modules/turnstile/service.php:372
+msgctxt "API keys"
+msgid "Remove Keys"
+msgstr "Hapus Kunci"
+
+#: includes/integration.php:28
+msgid "Email marketing"
+msgstr "Pemasaran E-mail"
+
+#: modules/recaptcha/service.php:300
+msgid "reCAPTCHA (v3)"
+msgstr "reCAPTCHA (v3)"
+
+#: modules/recaptcha/service.php:397 modules/stripe/service.php:294
+#: modules/turnstile/service.php:376
+msgid "Save Changes"
+msgstr "Simpan Perubahan"
+
+#: modules/constant-contact/constant-contact.php:56
+msgid "Constant Contact"
+msgstr "Constant Contact"
+
+#. translators: 1: response code, 2: message, 3: body, 4: URL
+#: includes/functions.php:623
+msgid "HTTP Response: %1$s %2$s %3$s from %4$s"
+msgstr "Respons HTTP: %1$s %2$s %3$s dari %4$s"
+
+#: modules/constant-contact/constant-contact.php:191
+msgid "App Secret"
+msgstr "App Secret"
+
+#: modules/constant-contact/constant-contact.php:169
+msgid "API Key"
+msgstr "API Key"
+
+#: modules/recaptcha/service.php:289
+msgid "reCAPTCHA protects you against spam and other types of automated abuse. With Contact Form 7&#8217;s reCAPTCHA integration module, you can block abusive form submissions by spam bots."
+msgstr "reCAPTCHA melindungi Anda terhadap spam dan jenis penyalahgunaan otomatis lainnya. Dengan modul integrasi reCAPTCHA pada Contact Form 7, Anda dapat memblokir pengiriman formulir yang tidak wajar dari bot spam."
+
+#: includes/config-validator/mail.php:425
+msgid "It is not allowed to use files outside the wp-content directory."
+msgstr "Tidak diizinkan menggunakan berkas di luar direktori wp-content."
+
+#: modules/acceptance.php:328
+msgid "Condition"
+msgstr "Kondisi"
+
+#. translators: 1: 'Consented' or 'Not consented', 2: conditions
+#: modules/acceptance.php:244
+msgctxt "mail output for acceptance checkboxes"
+msgid "%1$s: %2$s"
+msgstr "%1$s: %2$s"
+
+#: includes/submission.php:122
+msgid "Sending mail has been aborted."
+msgstr "Pengiriman email telah dibatalkan."
+
+#: modules/acceptance.php:228
+msgid "Not consented"
+msgstr "Tidak disetujui"
+
+#: modules/acceptance.php:226
+msgid "Consented"
+msgstr "Setuju"
+
+#: includes/contact-form.php:548 includes/contact-form.php:1071
+msgid "This contact form is available only for logged in users."
+msgstr "Formulir kontak ini hanya tersedia untuk pengguna yang sudah login."
+
+#: includes/config-validator/additional-settings.php:21
+msgid "Deprecated settings are used."
+msgstr "Pengaturan usang digunakan."
+
+#: includes/rest-api.php:247 includes/rest-api.php:269
+#: includes/rest-api.php:316 includes/rest-api.php:355
+#: includes/rest-api.php:427 includes/rest-api.php:446
+msgid "The requested contact form was not found."
+msgstr "Formulir kontak yang diminta tidak ditemukan."
+
+#: includes/config-validator/mail.php:200
+msgid "Sender email address does not belong to the site domain."
+msgstr "Alamat e-mail pengirim tidak sesuai dengan domain situs ini."
+
+#: includes/rest-api.php:46
+msgid "You are not allowed to create a contact form."
+msgstr "Anda tidak diizinkan untuk membuat formulir kontak."
+
+#: includes/rest-api.php:68 includes/rest-api.php:84 includes/rest-api.php:100
+msgid "You are not allowed to access the requested contact form."
+msgstr "Anda tidak diizinkan untuk mengakses formulir kontak yang diminta."
+
+#: includes/rest-api.php:32
+msgid "You are not allowed to access contact forms."
+msgstr "Anda tidak diizinkan untuk mengakses formulir kontak."
+
+#. translators: %names%: a list of form control names
+#: includes/config-validator/form.php:34
+msgid "Unavailable names (%names%) are used for form controls."
+msgstr "Nama yang tidak tersedia (%names%) digunakan untuk kontrol formulir."
+
+#: includes/config-validator/mail.php:312
+msgid "Invalid mailbox syntax is used in the %name% field."
+msgstr "Sintaks kotak surat yang tidak valid digunakan di bidang %name%."
+
+#: includes/config-validator/messages.php:31
+msgid "HTML tags are used in a message."
+msgstr "Tag HTML digunakan dalam sebuah pesan."
+
+#: includes/rest-api.php:199
+msgid "Cannot create existing contact form."
+msgstr "Tidak bisa membuat formulir kontak yang sudah ada."
+
+#: includes/rest-api.php:325
+msgid "There was an error deleting the contact form."
+msgstr "Ada eror menghapus formulir kontak."
+
+#: includes/config-validator/mail.php:162
+#: includes/config-validator/mail.php:346
+msgid "There is a possible empty field."
+msgstr "Ada kemungkinan kolom kosong."
+
+#: includes/config-validator/mail.php:299
+msgid "There are invalid mail header fields."
+msgstr "Ada bidang header e-mail yang tidak valid."
+
+#: includes/config-validator/mail.php:182
+#: includes/config-validator/mail.php:219
+msgid "Invalid mailbox syntax is used."
+msgstr "Syntax kotak surat yang tidak valid digunakan."
+
+#: includes/config-validator/mail.php:411
+msgid "Attachment file does not exist at %path%."
+msgstr "Berkas lampiran tidak ada di %path%."
+
+#: admin/admin.php:550 includes/rest-api.php:211 includes/rest-api.php:280
+msgid "There was an error saving the contact form."
+msgstr "Ada kesalahan menyimpan formulir kontak."
+
+#. translators: 1: WordPress hook name, 2: version number, 3: alternative hook
+#. name
+#: includes/functions.php:527
+msgid "Hook %1$s is <strong>deprecated</strong> since Contact Form 7 version %2$s! Use %3$s instead."
+msgstr "Hook %1$s telah <strong>usang</strong> sejak Contact Form 7 versi %2$s! Gunakan %3$s sebagai gantinya."
+
+#: includes/config-validator/form.php:18
+msgid "Multiple form controls are in a single label element."
+msgstr "Kontrol multi form ada dalam sebuah label elemen"
+
+#: admin/includes/config-validator.php:177
+msgid "FAQ about Configuration Validator"
+msgstr "FAQ tentang Validator Konfigurasi"
+
+#: includes/file.php:100
+msgid "You are not allowed to upload files of this type."
+msgstr "Anda tidak diperbolehkan untuk mengunggah berkas dengan jenis ini."
+
+#: includes/file.php:95
+msgid "There was an unknown error uploading the file."
+msgstr "Terdapat kesalahan tidak diketahui saat mengunggah berkas."
+
+#: includes/file.php:110
+msgid "There was an error uploading the file."
+msgstr "Terdapat kesalahan dalam mengunggah berkas"
+
+#: modules/quiz.php:185
+msgid "The answer to the quiz is incorrect."
+msgstr "Jawaban untuk kuis tidak benar."
+
+#. translators: 1: blog name, 2: [your-subject]
+#: includes/contact-form-template.php:54 includes/contact-form-template.php:98
+msgctxt "mail subject"
+msgid "%1$s \"%2$s\""
+msgstr "%1$s \"%2$s\""
+
+#. translators: %s: number of contact forms
+#: admin/admin.php:560
+msgid "Configuration validation completed. %s invalid contact form was found."
+msgid_plural "Configuration validation completed. %s invalid contact forms were found."
+msgstr[0] "Validasi konfigurasi selesai. Ditemukan %s formulir kontak yang tidak valid."
+msgstr[1] "Validasi konfigurasi selesai. Ditemukan %s formulir kontak yang tidak valid."
+
+#: admin/admin.php:568
+msgid "Configuration validation completed. No invalid contact form was found."
+msgstr "Validasi konfigurasi selesai. Tidak ditemukan formulir kontak yang tidak valid."
+
+#: admin/includes/config-validator.php:55
+msgid "Validate Contact Form 7 Configuration"
+msgstr "Validasi Konfigurasi Contact Form 7"
+
+#: admin/includes/config-validator.php:144
+msgid "Validate Configuration"
+msgstr "Validasi Konfigurasi"
+
+#. translators: %s: number of contact forms
+#: admin/includes/config-validator.php:120
+msgid "Validate %s contact form now"
+msgid_plural "Validate %s contact forms now"
+msgstr[0] "Validasi %s Kontak Form Sekarang"
+msgstr[1] "Validasi %s Kontak Form Sekarang"
+
+#: includes/contact-form-template.php:186
+msgid "You must accept the terms and conditions before sending your message."
+msgstr "Anda harus menerima syarat dan ketentuan sebelum mengirim pesan Anda."
+
+#: includes/contact-form-template.php:171
+#: includes/contact-form-template.php:181
+msgid "There was an error trying to send your message. Please try again later."
+msgstr "Terdapat kesalahan dalam mengirim pesan Anda. Silahkan coba lagi nanti"
+
+#: includes/contact-form-template.php:166
+msgid "Thank you for your message. It has been sent."
+msgstr "Terima kasih untuk pesan Anda. Pesan berhasil dikirim"
+
+#: admin/includes/config-validator.php:77
+msgid "You are not allowed to validate configuration."
+msgstr "Anda tidak diizinkan untuk memvalidasi konfigurasi."
+
+#: admin/includes/config-validator.php:49
+msgid "Misconfiguration leads to mail delivery failure or other troubles. Validate your contact forms now."
+msgstr "Kesalahan konfigurasi menyebabkan kegagalan pengiriman surat atau masalah lainnya. Validasi formulir kontak Anda sekarang."
+
+#: includes/contact-form-template.php:176
+msgid "One or more fields have an error. Please check and try again."
+msgstr "Satu atau lebih kolom terdapat eror. Harap periksa dan coba lagi."
+
+#: modules/recaptcha/service.php:368 modules/stripe/service.php:269
+#: modules/turnstile/service.php:351
+msgid "Secret Key"
+msgstr "Kunci Rahasia"
+
+#: modules/recaptcha/service.php:351 modules/turnstile/service.php:334
+msgid "Site Key"
+msgstr "Kunci Situs"
+
+#: modules/recaptcha/service.php:29
+msgid "reCAPTCHA"
+msgstr "reCAPTCHA"
+
+#: modules/recaptcha/service.php:269 modules/sendinblue/service.php:147
+#: modules/stripe/service.php:153 modules/turnstile/service.php:246
+msgid "Settings saved."
+msgstr "Pengaturan disimpan."
+
+#: modules/sendinblue/service.php:139
+msgid "Invalid key values."
+msgstr "Nilai kunci tidak valid."
+
+#: admin/includes/tag-generator.php:436
+msgid "Default value"
+msgstr "Nilai standar"
+
+#. translators: %s: [your-name] [your-email]
+#: includes/contact-form-template.php:66
+msgid "From: %s"
+msgstr "Dari: %s"
+
+#: modules/submit.php:30
+msgid "Send"
+msgstr "Kirim"
+
+#. translators: %s: [your-subject]
+#: includes/contact-form-template.php:71
+msgid "Subject: %s"
+msgstr "Subjek: %s"
+
+#: modules/really-simple-captcha.php:238
+msgid "The code that sender entered does not match the CAPTCHA"
+msgstr "Kode yang dimasukkan tidak sesuai dengan CAPTCHA"
+
+#. translators: %s: Path to the temporary folder
+#: modules/really-simple-captcha.php:282
+msgid "This contact form contains CAPTCHA fields, but the temporary folder for the files (%s) does not exist or is not writable. You can create the folder or change its permission manually."
+msgstr "Formulir kontak ini mengandung ruas CAPTCHA, namun folder sementara untuk berkas-berkas (%s) belum ada atau tidak bisa ditulis. Anda bisa membuat foldernya atau mengubah ijinnya secara manual."
+
+#. translators: %s: the path of the temporary folder
+#: includes/file.php:423
+msgid "This contact form has file uploading fields, but the temporary folder for the files (%s) does not exist or is not writable. You can create the folder or change its permission manually."
+msgstr "Formulir kontak ini mengandung ruas untuk mengunggah berkas, tapi folder sementara untuk berkas (%s) belum ada atau tidak bisa ditulis. Anda bisa membuat foldernya atau mengubah ijinnya secara manual."
+
+#: includes/contact-form.php:116 includes/contact-form.php:439
+msgid "Untitled"
+msgstr "Tanpa judul"
+
+#: includes/file.php:104
+msgid "Uploaded file is too large"
+msgstr "Berkas yang diunggah terlalu besar"
+
+#: includes/file.php:109
+msgid "Uploading a file fails for PHP error"
+msgstr "Pengunggahan gagal karena galat PHP"
+
+#: includes/file.php:94
+msgid "Uploading a file fails for any reason"
+msgstr "Pengunggahan berkas gagal karena suatu sebab."
+
+#: includes/contact-form-template.php:43
+msgid "Your message"
+msgstr "Pesan Anda"
+
+#: includes/contact-form-template.php:40
+msgid "Your name"
+msgstr "Nama Anda"
+
+#: modules/number.php:202
+msgid "number"
+msgstr "angka"
+
+#: modules/akismet/service.php:22
+msgid "Akismet"
+msgstr "Akismet"
+
+#: modules/date.php:184
+msgid "date"
+msgstr "tanggal"
+
+#: modules/text.php:212
+msgid "email"
+msgstr "e-mail"
+
+#: modules/text.php:179
+msgid "Email address that the sender entered is invalid"
+msgstr "Alamat e-mail yang dimasukkan oleh pengirim tidak valid"
+
+#: modules/file.php:146
+msgid "file"
+msgstr "berkas"
+
+#: admin/includes/help-tabs.php:99
+msgid "For more information:"
+msgstr "Untuk informasi lebih lanjut:"
+
+#. Plugin URI of the plugin
+#: wp-contact-form-7.php
+msgid "https://contactform7.com/"
+msgstr "https://contactform7.com/"
+
+#: modules/submit.php:108
+msgid "Label"
+msgstr "Label"
+
+#: admin/includes/tag-generator.php:412
+msgid "Max"
+msgstr "Maks"
+
+#: includes/contact-form-template.php:74 includes/contact-form-template.php:108
+msgid "Message Body:"
+msgstr "Isi Pesan:"
+
+#: admin/includes/tag-generator.php:393
+msgid "Min"
+msgstr "Min"
+
+#: modules/number.php:183
+msgid "Number is smaller than minimum limit"
+msgstr "Angka lebih kecil dari batas minimum"
+
+#: modules/number.php:188
+msgid "Number is larger than maximum limit"
+msgstr "Angka lebih besar dari batas maksimum"
+
+#: modules/quiz.php:200
+msgid "quiz"
+msgstr "kuis"
+
+#: modules/quiz.php:209
+msgid "Quiz"
+msgstr "Kuis"
+
+#: modules/text.php:213
+msgid "URL"
+msgstr "URL"
+
+#: modules/text.php:186
+msgid "URL that the sender entered is invalid"
+msgstr "URL yang dimasukkan oleh pengirim tidak valid"
+
+#: admin/includes/editor.php:435
+msgid "File attachments"
+msgstr "Lampiran berkas"
+
+#: admin/includes/tag-generator.php:362
+msgid "Class attribute"
+msgstr "Atribut Class"
+
+#: modules/file.php:213
+msgid "Acceptable file types"
+msgstr "Jenis berkas yang dapat diterima"
+
+#: includes/file.php:99
+msgid "Uploaded file is not allowed for file type"
+msgstr "Berkas yang diunggah bukan jenis yang diperbolehkan"
+
+#: admin/includes/help-tabs.php:24
+msgid "Available Actions"
+msgstr "Tindakan Yang Tersedia"
+
+#: modules/date.php:170
+msgid "Date is later than maximum limit"
+msgstr "Tanggal lebih dari batas maksimum"
+
+#: modules/date.php:165
+msgid "Date is earlier than minimum limit"
+msgstr "Tanggal kurang dari batas minimum"
+
+#: includes/contact-form.php:54
+msgid "Contact Form"
+msgstr "Formulir Kontak"
+
+#. translators: title of your first contact form. %d: number fixed to '1'
+#: load.php:200
+msgid "Contact form %d"
+msgstr "Formulir kontak %d"
+
+#: modules/date.php:160
+msgid "Date format that the sender entered is invalid"
+msgstr "Format tanggal yang dimasukkan oleh pengirim tidak valid"
+
+#: modules/number.php:178
+msgid "Number format that the sender entered is invalid"
+msgstr "Format angka yang dimasukkan oleh pengirim tidak valid"
+
+#: admin/includes/help-tabs.php:75
+msgid "On this screen, you can edit a contact form. A contact form is comprised of the following components:"
+msgstr "Di layar ini, Anda dapat mengedit formulir kontak. Sebuah formulir kontak terdiri dari komponen-komponen berikut:"
+
+#: modules/really-simple-captcha.php:294
+msgid "This contact form contains CAPTCHA fields, but the necessary libraries (GD and FreeType) are not available on your server."
+msgstr "Formulir kontak ini mengandung ruas isian CAPTCHA, tapi pustaka yang diperlukan (GD dan FreeType) tidak tersedia pada server Anda."
+
+#. translators: 1: property name, 2: method name
+#: includes/contact-form.php:235
+msgid "<code>%1$s</code> property of a <code>WPCF7_ContactForm</code> object is <strong>no longer accessible</strong>. Use <code>%2$s</code> method instead."
+msgstr "Properti <code>%1$s</code> dari objek <code>WPCF7_ContactForm</code> <strong>tidak lagi dapat diakses</strong>. Gunakan metode <code>%2$s</code> sebagai gantinya."
+
+#: modules/number.php:254
+msgid "Slider"
+msgstr "Slider"
+
+#: modules/textarea.php:145
+msgid "text area"
+msgstr "area teks"
+
+#: modules/text.php:211
+msgid "text"
+msgstr "teks"
+
+#: modules/submit.php:51
+msgid "submit"
+msgstr "kirim"
+
+#. Description of the plugin
+#: wp-contact-form-7.php
+msgid "Just another contact form plugin. Simple but flexible."
+msgstr "Hanya sekadar plugin formulir kontak lainnya. Sederhana tetapi fleksibel."
+
+#: modules/text.php:214
+msgid "tel"
+msgstr "tel"
+
+#: modules/submit.php:60
+msgid "Submit button"
+msgstr "Tombol Kirim"
+
+#: modules/select.php:232
+msgid "drop-down menu"
+msgstr "drop-down menu"
+
+#: modules/number.php:253
+msgid "Spinbox"
+msgstr "Spinbox"
+
+#: modules/date.php:193
+msgid "Date field"
+msgstr "Kolom Tanggal"
+
+#: modules/really-simple-captcha.php:240
+msgid "Your entered code is incorrect."
+msgstr "Kode yang Anda masukkan tidak benar."
+
+#: modules/text.php:193
+msgid "Telephone number that the sender entered is invalid"
+msgstr "Nomor telepon yang dimasukkan pengirim tidak valid"
+
+#: modules/date.php:245 modules/number.php:263
+msgid "Range"
+msgstr "Range"
+
+#: modules/checkbox.php:356
+msgid "radio buttons"
+msgstr "tombol radio"
+
+#: modules/quiz.php:266
+msgid "Questions and answers"
+msgstr "Pertanyaan dan jawaban"
+
+#: admin/includes/help-tabs.php:18 admin/includes/help-tabs.php:34
+#: admin/includes/help-tabs.php:56
+msgid "Overview"
+msgstr "Ikhtisar"
+
+#: includes/contact-form-template.php:41
+msgid "Your email"
+msgstr "E-mail anda"
+
+#: admin/includes/tag-generator.php:219
+msgid "Field type"
+msgstr "Tipe bidang"
+
+#: modules/checkbox.php:355
+msgid "checkboxes"
+msgstr "checkbox"
+
+#: admin/includes/tag-generator.php:599
+msgid "Insert Tag"
+msgstr "Masukkan Tag"
+
+#: modules/acceptance.php:270
+msgid "Acceptance checkbox"
+msgstr "Checkbox Persetujuan"
+
+#: modules/acceptance.php:261
+msgid "acceptance"
+msgstr "persetujuan"
+
+#: includes/contact-form-template.php:195
+msgid "There is a field with input that is longer than the maximum allowed length"
+msgstr "Ada kolom dengan input yang lebih panjang dari yang diizinkan"
+
+#: includes/contact-form-template.php:200
+msgid "There is a field with input that is shorter than the minimum allowed length"
+msgstr "Ada kolom dengan input yang lebih pendek dari yang diizinkan"
+
+#: includes/contact-form-template.php:190
+msgid "There is a field that the sender must fill in"
+msgstr "Ada kolom yang harus diisi oleh pengirim"
+
+#: includes/contact-form-template.php:185
+msgid "There are terms that the sender must accept"
+msgstr "Ada peraturan yang harus disetujui oleh pengirim"
+
+#: includes/contact-form-template.php:180
+msgid "Submission was referred to as spam"
+msgstr "Pengiriman telah ditandai sebagai spam"
+
+#: admin/includes/help-tabs.php:90
+msgid "You may need to first sign up for an account with the service that you plan to use. When you do so, you would need to authorize Contact Form 7 to access the service with your account."
+msgstr "Anda mungkin perlu terlebih dulu mendaftarkan akun pada layanan yang ingin Anda gunakan. Jika Anda melakukannya, Anda akan perlu memberikan otorisasi Contact Form 7 untuk mengakses layanan menggunakan akun Anda"
+
+#: admin/includes/help-tabs.php:91
+msgid "Any information you provide will not be shared with service providers without your authorization."
+msgstr "Setiap informasi yang Anda berikan tidak akan dibagikan kepada penyedia layanan tanpa persetujuan Anda"
+
+#: admin/includes/help-tabs.php:89
+msgid "On this screen, you can manage services that are available through Contact Form 7. Using API will allow you to collaborate with any services that are available."
+msgstr "Pada layar ini, Anda dapat mengelola layanan yang tersedia melalui Contact Form 7. Menggunakan API akan mengizinkan Anda untuk berkolaborasi dengan layanan lain yang tersedia."
+
+#. translators: %s: title of form-tag
+#: admin/includes/tag-generator.php:85
+msgid "Form-tag Generator: %s"
+msgstr "Pembuat Form-tag: %s"
+
+#: admin/includes/help-tabs.php:86
+msgid "A mail-tag is also a short code enclosed in square brackets that you can use in every Mail and Mail (2) field. A mail-tag represents a user input value through an input field of a corresponding form-tag."
+msgstr "Mail-tag juga merupakan sebuah kode pendek tertutup dalam kurung kotak yang dapat Anda gunakan dalam setiap kolom Pesan dan Pesan (2). Mail-tag mewakili nilai input pengguna melalui kolom input dari form-tag yang sesuai. "
+
+#: admin/includes/help-tabs.php:83
+msgid "A form-tag is a short code enclosed in square brackets used in a form content. A form-tag generally represents an input field, and its components can be separated into four parts: type, name, options, and values. Contact Form 7 supports several types of form-tags including text fields, number fields, date fields, checkboxes, radio buttons, menus, file-uploading fields, CAPTCHAs, and quiz fields."
+msgstr "Form-tag juga merupakan sebuah kode pendek tertutup dalam kurung kotak yang digunakan dalam konten form. Sebuah form-tag biasanya mewakili dari kolom input, dan komponen ini dapat dipisahkan dalam 4 bagian: tipe, nama, opsi, dan nilai. Contact Form 7 mendukung berbagai tipe form-tag termasuk kolom teks, kolom nomor, kolom tanggal, checkbox, tombol radio, menu, kolom unggah berkas, CAPTCHA, dan kolom kuis."
+
+#: admin/includes/help-tabs.php:81
+msgid "<strong>Additional Settings</strong> provides a place where you can customize the behavior of this contact form by adding code snippets."
+msgstr "<strong>Pengaturan Tambahan</strong> menyediakan sebuah lokasi di mana Anda dapat menyesuaikan perilaku formulir kontak dengan menambahkan potongan kode."
+
+#: admin/includes/help-tabs.php:80
+msgid "In <strong>Messages</strong>, you can edit various types of messages used for this contact form. These messages are relatively short messages, like a validation error message you see when you leave a required field blank."
+msgstr "Dalam <strong>Pesan</strong>, Anda dapat mengedit berbagai tipe pesan yang digunakan untuk formulir kontak ini. Pesan ini relatif singkat, seperti pesan kesalahan validasi yang Anda lihat ketika Anda tidak mengisi kolom wajib."
+
+#: admin/includes/help-tabs.php:46
+msgid "Mail-tags"
+msgstr "Mail-tag"
+
+#: admin/includes/help-tabs.php:40
+msgid "Form-tags"
+msgstr "Form-tag"
+
+#: admin/includes/help-tabs.php:77
+msgid "<strong>Form</strong> is a content of HTML form. You can use arbitrary HTML, which is allowed inside a form element. You can also use Contact Form 7&#8217;s form-tags here."
+msgstr "<strong>Formulir</strong> adalah sebuah konten dari formulir HTML. Anda dapat menggunakan HTML bebas, yang diizinkan dalam sebuah elemen formulir. Anda dapat juga menggunakan form-tag Contact Form 7 di sini."
+
+#: admin/includes/help-tabs.php:76
+msgid "<strong>Title</strong> is the title of a contact form. This title is only used for labeling a contact form, and can be edited."
+msgstr "<strong>Judul</strong> adalah judul dari formulir kontak. Judul ini hanya digunakan untuk memberi label sebuah formulir kontak, dan dapat diedit."
+
+#: admin/includes/help-tabs.php:73
+msgid "<strong>Duplicate</strong> - Clones that contact form. A cloned contact form inherits all content from the original, but has a different ID."
+msgstr "<strong>Duplikasi</strong> - Menggandakan formulir kontak. Duplikat formulir kontak akan memiliki semua konten sama dengan yang asli, tetapi memiliki ID yang berbeda."
+
+#: admin/includes/help-tabs.php:72
+msgid "<strong>Edit</strong> - Navigates to the editing screen for that contact form. You can also reach that screen by clicking on the contact form title."
+msgstr "<strong>Edit</strong> - Pergi ke layar pengeditan formulir kontak. Anda juga dapat mencapainya dengan klik pada judul formulir kontak."
+
+#: admin/includes/help-tabs.php:71
+msgid "Hovering over a row in the contact forms list will display action links that allow you to manage your contact form. You can perform the following actions:"
+msgstr "Menyorot baris dalam daftar formulir kontak akan memunculkan tautan aksi yang memungkinkan Anda untuk mengelola formulir kontak Anda. Anda dapat menjalankan aksi berikut: "
+
+#: admin/includes/help-tabs.php:78
+msgid "<strong>Mail</strong> manages a mail template (headers and message body) that this contact form will send when users submit it. You can use Contact Form 7&#8217;s mail-tags here."
+msgstr "<strong>Surat</strong> kelola template surat (kepala dan badan pesan) yang formulir kontak ini akan kirim ketika pengguna mengirimnya. Anda dapat menggunakan mail-tag Contact Form 7 disini"
+
+#: admin/includes/help-tabs.php:79
+msgid "<strong>Mail (2)</strong> is an additional mail template that works similar to Mail. Mail (2) is different in that it is sent only when Mail has been sent successfully."
+msgstr "<strong>Pesan (2)</strong> ini adalah templat pesan tambahan yang bekerja seperti Pesan. Pesan (2) berbeda dalam hal, dia hanya dikirim jika pesan utama berhasil terkirim."
+
+#: includes/contact-form-template.php:175
+msgid "Validation errors occurred"
+msgstr "Timbul eror validasi"
+
+#: modules/quiz.php:183
+msgid "Sender does not enter the correct answer to the quiz"
+msgstr "Pengirim tidak memasukkan jawaban yang benar untuk kuis"
+
+#: admin/includes/help-tabs.php:87
+msgid "There are also special mail-tags that have specific names, but do not have corresponding form-tags. They are used to represent meta information of form submissions like the submitter&#8217;s IP address or the URL of the page."
+msgstr "Ada juga mail-tags spesial yang memiliki nama spesifik, tetapi tidak mempunyai form-tags yang sesuai. Mereka digunakan untuk mewakili informasi meta dari kiriman form seperti alamat IP pengirim atau URL laman."
+
+#: admin/includes/help-tabs.php:84
+msgid "While form-tags have a comparatively complex syntax, you do not need to know the syntax to add form-tags because you can use the straightforward tag generator (<strong>Generate Tag</strong> button on this screen)."
+msgstr "Meski form-tags memiliki syntax yang komplek, Anda tidak perlu memahami syntax untuk menambahkan form-tags karena Anda dapat menggunakan tombol pembuat tag langsung (<strong>Buat Tag</strong> pada layar ini)."
+
+#: admin/admin.php:33
+msgid "Contact"
+msgstr "Kontak"
+
+#: admin/edit-contact-form.php:299 admin/edit-contact-form.php:303
+#: admin/includes/list-table.php:107
+msgid "Delete"
+msgstr "Hapus"
+
+#: admin/edit-contact-form.php:354 admin/includes/editor.php:96
+msgid "Form"
+msgstr "Formulir"
+
+#: admin/edit-contact-form.php:358 admin/includes/editor.php:143
+msgid "Mail"
+msgstr "Surat"
+
+#: admin/includes/editor.php:134
+msgid "Mail (2)"
+msgstr "Surat (2)"
+
+#: admin/edit-contact-form.php:362 admin/includes/editor.php:480
+msgid "Messages"
+msgstr "Pesan"
+
+#: admin/edit-contact-form.php:250 admin/edit-contact-form.php:254
+#: admin/edit-contact-form.php:319 admin/edit-contact-form.php:323
+msgid "Save"
+msgstr "Simpan"
+
+#: admin/includes/editor.php:303 includes/contact-form-template.php:42
+msgid "Subject"
+msgstr "Subjek"
+
+#: admin/includes/editor.php:419
+msgid "Use HTML content type"
+msgstr "Gunakan tipe konten HTML"
+
+#: admin/edit-contact-form.php:224
+msgid "Status"
+msgstr "Status"
+
+#: admin/includes/list-table.php:74 admin/includes/list-table.php:96
+msgid "Date"
+msgstr "Tanggal"
+
+#: admin/includes/editor.php:331
+msgid "Additional headers"
+msgstr "Header tambahan"
+
+#: admin/edit-contact-form.php:385 admin/includes/editor.php:532
+msgid "Additional Settings"
+msgstr "Pengaturan Tambahan"
+
+#. translators: %d: number of additional settings
+#: admin/edit-contact-form.php:382
+msgid "Additional Settings (%d)"
+msgstr "Pengaturan Tambahan (%d)"
+
+#. Plugin Name of the plugin
+#: wp-contact-form-7.php modules/flamingo.php:222
+msgid "Contact Form 7"
+msgstr "Contact Form 7"
+
+#: admin/includes/help-tabs.php:100
+msgid "Docs"
+msgstr "Dokumentasi"
+
+#: admin/edit-contact-form.php:139 admin/edit-contact-form.php:140
+msgid "Enter title here"
+msgstr "Masukkan judul di sini"
+
+#: admin/admin.php:416
+msgid "Error in deleting."
+msgstr "Eror saat menghapus."
+
+#: admin/includes/list-table.php:268
+msgid "Edit"
+msgstr "Edit"
+
+#: admin/includes/editor.php:275
+msgid "From"
+msgstr "Dari"
+
+#: admin/admin.php:86
+msgid "Integration"
+msgstr "Integrasi"
+
+#: admin/includes/editor.php:196
+msgid "Mail (2) is an additional mail template often used as an autoresponder."
+msgstr "Surat (2) adalah sebuah tambahan template surat yang sering digunakan sebagai balasan otomatis."
+
+#: admin/includes/editor.php:362
+msgid "Message body"
+msgstr "Isi pesan"
+
+#: admin/includes/help-tabs.php:102
+msgid "Support"
+msgstr "Dukungan"
+
+#: admin/includes/list-table.php:72 admin/includes/list-table.php:83
+#: includes/block-editor/index.js:1
+msgid "Title"
+msgstr "Judul"
+
+#: admin/includes/editor.php:247
+msgid "To"
+msgstr "Kepada"
+
+#: admin/includes/editor.php:135
+msgid "Use Mail (2)"
+msgstr "Gunakan Surat (2)"
+
+#: admin/admin.php:543
+msgid "Contact form created."
+msgstr "Formulir kontak dibuat."
+
+#: admin/admin.php:547
+msgid "Contact form deleted."
+msgstr "Formulir kontak dihapus."
+
+#: admin/admin.php:545
+msgid "Contact form saved."
+msgstr "Formulir kontak disimpan."
+
+#: admin/admin.php:58 admin/admin.php:59 admin/contact-forms.php:26
+#: includes/contact-form.php:53
+msgid "Contact Forms"
+msgstr "Formulir Kontak"
+
+#: admin/admin.php:57 admin/edit-contact-form.php:29
+msgid "Edit Contact Form"
+msgstr "Edit Formulir Kontak"
+
+#: admin/contact-forms.php:83
+msgid "Search Contact Forms"
+msgstr "Cari Formulir Kontak"
+
+#: admin/edit-contact-form.php:264 admin/edit-contact-form.php:268
+#: admin/includes/list-table.php:288
+msgid "Duplicate"
+msgstr "Duplikat"
+
+#. translators: date format, see https://www.php.net/date
+#: admin/includes/list-table.php:323
+msgid "Y/m/d"
+msgstr "Y/m/d"
+
+#: admin/admin.php:312 admin/admin.php:365
+msgid "You are not allowed to edit this item."
+msgstr "Anda tidak diizinkan mengubah item ini."
+
+#: admin/admin.php:634
+msgid "You are not allowed to edit this contact form."
+msgstr "Anda tidak diizinkan untuk mengedit formulir kontak ini."
+
+#: admin/admin.php:594
+msgid "Settings"
+msgstr "Pengaturan"
+
+#: admin/includes/help-tabs.php:101
+msgid "FAQ"
+msgstr "Tanya Jawab"
+
+#. translators: %s: title of contact form
+#: admin/includes/list-table.php:172
+msgid "Edit &#8220;%s&#8221;"
+msgstr "Sunting &#8220;%s&#8221;"
+
+#: admin/includes/list-table.php:73 admin/includes/list-table.php:90
+msgid "Author"
+msgstr "Penulis"
+
+#: admin/admin.php:410
+msgid "You are not allowed to delete this item."
+msgstr "Anda tidak diizinkan menghapus item ini."
+
+#: admin/includes/editor.php:219
+msgid "In the following fields, you can use these mail-tags:"
+msgstr "Dalam kolom berikut, Anda dapat menggunakan mail-tag berikut:"
+
+#. translators: 1: version of Contact Form 7, 2: version of WordPress, 3: URL
+#: admin/admin.php:612
+msgid "<strong>Contact Form 7 %1$s requires WordPress %2$s or higher.</strong> Please <a href=\"%3$s\">update WordPress</a> first."
+msgstr "<strong>Contact Form 7 %1$s membutuhkan WordPress %2$s atau lebih tinggi.</strong> Mohon <a href=\"%3$s\">perbarui WordPress</a> terlebih dulu."
+
+#: modules/akismet/service.php:65
+msgid "Spam filtering with Akismet"
+msgstr "Penyaringan spam dengan Akismet"

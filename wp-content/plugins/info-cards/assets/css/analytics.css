@@ -1,0 +1,1022 @@
+/**
+ * Info Cards — shared admin screen styling.
+ *
+ * Modern, polished dashboard aesthetics for Analytics screen.
+ * Matching the dashboard color scheme, typography, elevations, and components.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap');
+
+.icbWrap {
+	max-width: 100%;
+	margin: 24px auto 40px !important;
+	padding: 0 15px;
+	font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+	color: #1b2e4b;
+	box-sizing: border-box;
+}
+
+.icbWrap *,
+.icbWrap *::before,
+.icbWrap *::after,
+.icbWrap input,
+.icbWrap select,
+.icbWrap button,
+.icbWrap .button,
+.icbWrap .icbBtn,
+.icbWrap .icbBtnPrimary,
+.icbWrap .icbBtnSecondary,
+.icbWrap .icbBtnClearAnalytics,
+.icbWrap .icbPanel {
+	box-sizing: border-box;
+	border-radius: 0 !important;
+	-webkit-border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
+}
+
+.icbHeader {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 20px;
+	margin-bottom: 24px;
+}
+
+.icbWrap h1 {
+	margin: 0 0 6px;
+	padding: 0;
+	font-size: 26px;
+	font-weight: 800;
+	color: #070127;
+	letter-spacing: -0.4px;
+	line-height: 1.2;
+}
+
+.icbSubtitle {
+	margin: 0;
+	max-width: 70ch;
+	color: #646970;
+	font-size: 13.5px;
+	line-height: 1.5;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.icbSubtitle svg {
+	color: #146ef5;
+	flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------- range picker */
+
+.icbHeader + .icbFilterBar {
+	margin-top: -8px;
+}
+
+.icbFilterBar {
+	--icbAccent: #146ef5;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px 14px;
+	margin-bottom: 24px;
+}
+
+.icbSeg {
+	display: inline-flex;
+	align-items: stretch;
+	flex-wrap: wrap;
+	background: #ffffff;
+	border: 1px solid #dcdfe4;
+	border-radius: 0 !important;
+}
+
+.icbSeg > .icbSegItem {
+	border-left: 1px solid #dcdfe4;
+}
+
+.icbSeg > :first-child {
+	border-left: 0;
+}
+
+.icbSegItem {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 12px;
+	font-size: 13px;
+	line-height: 18px;
+	color: #6b7280;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: color 0.15s ease, background 0.15s ease;
+}
+
+.icbSegItem:hover,
+.icbSegItem:focus {
+	color: #070127;
+	background: #f6f7f9;
+	box-shadow: none;
+	outline: none;
+}
+
+.icbSegItem:focus-visible {
+	outline: 2px solid var(--icbAccent);
+	outline-offset: -2px;
+}
+
+.icbSegItem.isActive,
+.icbSegItem.isActive:hover {
+	color: var(--icbAccent);
+	background: #e8f1fe;
+	box-shadow: inset 0 0 0 1px var(--icbAccent);
+	font-weight: 600;
+}
+
+/* -------------------------------------------------------------- pro lock */
+
+.icbFilterBar {
+	padding-top: 8px;
+}
+
+.icbSegItem.isPro,
+.icbProCompareBox {
+	position: relative;
+	color: #9ca3af;
+}
+
+.icbSegItem.isPro svg {
+	color: #b6bbc4;
+}
+
+.icbProBadge {
+	position: absolute;
+	top: -9px;
+	right: -6px;
+	z-index: 1;
+	padding: 1px 5px;
+	background: #f18500;
+	color: #ffffff;
+	font-size: 9px;
+	font-weight: 700;
+	line-height: 14px;
+	letter-spacing: 0.4px;
+	text-transform: uppercase;
+	pointer-events: none;
+}
+
+.icbProCompare {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.icbProCompareLabel {
+	color: #374151;
+	font-size: 13px;
+}
+
+.icbProCompareBox {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 32px;
+	padding: 4px 12px;
+	font-size: 13px;
+	text-decoration: none;
+	background: #ffffff;
+	border: 1px solid #dcdfe4;
+	transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.icbProCompareBox:hover,
+.icbProCompareBox:focus {
+	color: #070127;
+	border-color: #f18500;
+	box-shadow: none;
+}
+
+/* ---------------------------------------------------------------- notices */
+
+.icbNotice,
+.icbWrap .notice {
+	background: #f0fdf4;
+	border: 1px solid #bbf7d0;
+	border-left: 4px solid #22c55e;
+	border-radius: 0 !important;
+	color: #166534;
+	padding: 12px 18px;
+	margin: 0 0 24px;
+	box-shadow: 0 2px 6px rgba(34, 197, 94, 0.08);
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.icbNotice p,
+.icbWrap .notice p {
+	margin: 0;
+	padding: 0;
+}
+
+/* ---------------------------------------------------------------- figures */
+
+.icbCards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+	gap: 20px;
+	margin-bottom: 24px;
+}
+
+.icbCard {
+	background: #ffffff;
+	border: 1px solid rgba(27, 46, 75, 0.1);
+	border-radius: 0 !important;
+	padding: 22px 24px;
+	box-shadow: 0 2px 8px rgba(7, 1, 39, 0.03);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+	position: relative;
+	overflow: hidden;
+}
+
+.icbCard::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 3px;
+	background: linear-gradient(90deg, #146ef5, #3b82f6);
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}
+
+.icbCard:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 10px 24px rgba(7, 1, 39, 0.08);
+	border-color: rgba(20, 110, 245, 0.3);
+}
+
+.icbCard:hover::before {
+	opacity: 1;
+}
+
+.icbCardHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.icbCardLabel {
+	font-size: 12px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.8px;
+	color: #646970;
+}
+
+.icbCardIcon {
+	width: 36px;
+	height: 36px;
+	border-radius: 0 !important;
+	background: rgba(20, 110, 245, 0.08);
+	color: #146ef5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.icbCardValue {
+	font-size: 32px;
+	font-weight: 800;
+	color: #070127;
+	line-height: 1.1;
+	letter-spacing: -0.5px;
+}
+
+.icbCardFooter {
+	margin-top: 2px;
+}
+
+.icbCardNote {
+	color: #8c8f94;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 1.4;
+}
+
+/* Pro lock: the sample cards are blurred and a message box sits on top. */
+.icbProLock {
+	position: relative;
+	display: block;
+	margin-bottom: 24px;
+	color: inherit;
+	text-decoration: none;
+}
+
+.icbProLock:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.icbProLock .icbCards {
+	margin-bottom: 0;
+	filter: blur(5px);
+	opacity: 0.85;
+	user-select: none;
+	pointer-events: none;
+}
+
+.icbProLockBox {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	width: max-content;
+	max-width: calc(100% - 32px);
+	padding: 14px 24px;
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	box-shadow: 0 10px 30px rgba(7, 1, 39, 0.1);
+	text-align: center;
+	transform: translate(-50%, -50%);
+}
+
+.icbProLockIcon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 50% !important;
+	background: rgba(241, 133, 0, 0.12);
+	color: #f18500;
+}
+
+.icbProLockBox p {
+	margin: 0;
+	max-width: 600px;
+	color: #4b5563;
+	font-size: 13.5px;
+	line-height: 1.5;
+}
+
+.icbProLockBox p strong {
+	display: block;
+	color: #070127;
+	font-size: 14.5px;
+	font-weight: 700;
+}
+
+.icbProLockCta {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 2px;
+	padding: 7px 16px;
+	background: #f18500;
+	color: #ffffff;
+	font-size: 13px;
+	font-weight: 600;
+	transition: background 0.15s ease;
+}
+
+.icbProLock:hover .icbProLockCta,
+.icbProLock:focus-visible .icbProLockCta {
+	background: #d97706;
+}
+
+.icbProLockCta .icbProBadge {
+	position: static;
+	background: #ffffff;
+	color: #f18500;
+}
+
+/* ------------------------------------------------------------------ trend */
+
+.icbTrend {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 12px;
+	font-weight: 600;
+	padding: 4px 10px;
+	border-radius: 0 !important;
+	white-space: nowrap;
+}
+
+.icbTrend.isUp {
+	background: rgba(34, 197, 94, 0.12);
+	color: #15803d;
+}
+
+.icbTrend.isDown {
+	background: rgba(239, 68, 68, 0.12);
+	color: #b91c1c;
+}
+
+.icbTrend.isFlat {
+	background: rgba(100, 116, 139, 0.12);
+	color: #646970;
+	font-weight: 500;
+}
+
+/* ----------------------------------------------------------------- panels */
+
+.icbPanel {
+	background: #ffffff;
+	border: 1px solid rgba(27, 46, 75, 0.1);
+	border-radius: 0 !important;
+	padding: 24px;
+	box-shadow: 0 2px 8px rgba(7, 1, 39, 0.03);
+	margin-bottom: 24px;
+}
+
+.icbPanelTitleRow,
+.icbPanelHead {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-bottom: 20px;
+}
+
+.icbPanel h2,
+.icbPanelHead h2 {
+	margin: 0;
+	padding: 0;
+	font-size: 18px;
+	font-weight: 700;
+	color: #070127;
+	letter-spacing: -0.3px;
+}
+
+.icbPanelNote {
+	margin: -10px 0 18px;
+	color: #646970;
+	font-size: 13.5px;
+}
+
+.icbPanelSplit {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.icbEmpty {
+	padding: 48px 24px;
+	text-align: center;
+	background: #f8fafc;
+	border: 1.5px dashed #cbd5e1;
+	border-radius: 0 !important;
+	color: #646970;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+}
+
+.icbEmpty svg {
+	color: #94a3b8;
+}
+
+.icbEmpty p {
+	margin: 0;
+	font-size: 14px;
+	max-width: 480px;
+	line-height: 1.5;
+	color: #475569;
+}
+
+/* ------------------------------------------------------------------ chart */
+
+.icbChartSub {
+	margin: 6px 0 0;
+	color: #646970;
+	font-size: 13px;
+}
+
+.icbChartSub strong {
+	color: #070127;
+	font-weight: 700;
+}
+
+.icbLineChart {
+	--icbLine: #146ef5;
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: 200px auto;
+	column-gap: 14px;
+	padding: 10px 12px 0 0;
+}
+
+.icbLineYAxis {
+	position: relative;
+	min-width: 18px;
+}
+
+.icbLineYAxis span {
+	position: absolute;
+	right: 0;
+	transform: translateY(50%);
+	color: #6b7280;
+	font-size: 12px;
+	line-height: 1;
+	white-space: nowrap;
+}
+
+.icbLinePlot {
+	position: relative;
+}
+
+.icbLineSvg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+.icbLineGrid {
+	stroke: #eceef2;
+	stroke-width: 1;
+}
+
+.icbLinePath {
+	fill: none;
+	stroke: var(--icbLine);
+	stroke-width: 1.5;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+}
+
+.icbLineEndDot,
+.icbLineDot {
+	position: absolute;
+	width: 7px;
+	height: 7px;
+	border-radius: 50% !important;
+	background: var(--icbLine);
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+}
+
+.icbLinePoint {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	transform: translateX(-50%);
+}
+
+.icbLinePoint::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 50%;
+	border-left: 1px dashed #b9d3fc;
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+
+.icbLinePoint .icbLineDot {
+	left: 50%;
+	width: 9px;
+	height: 9px;
+	border: 2px solid #ffffff;
+	box-shadow: 0 0 0 1px var(--icbLine);
+	box-sizing: content-box;
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+
+.icbLineTip {
+	position: absolute;
+	left: 50%;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	padding: 6px 10px;
+	background: #070127;
+	color: #ffffff;
+	font-size: 12px;
+	line-height: 1.2;
+	white-space: nowrap;
+	border-radius: 6px !important;
+	transform: translate(-50%, calc(-100% - 12px));
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.15s ease;
+	pointer-events: none;
+}
+
+.icbLineTipDate {
+	color: #b9d3fc;
+	font-size: 11px;
+}
+
+.icbLinePoint:hover::before,
+.icbLinePoint:hover .icbLineDot,
+.icbLinePoint:hover .icbLineTip,
+.icbLinePoint:focus::before,
+.icbLinePoint:focus .icbLineDot,
+.icbLinePoint:focus .icbLineTip {
+	opacity: 1;
+	visibility: visible;
+}
+
+.icbLinePoint:focus {
+	outline: none;
+}
+
+/* A single day has no line to draw, so its points are always shown. */
+.icbLineChart.isSingle .icbLineDot {
+	opacity: 1;
+}
+
+.icbLineXAxis {
+	position: relative;
+	grid-column: 2;
+	height: 30px;
+}
+
+.icbLineXAxis span {
+	position: absolute;
+	top: 12px;
+	transform: translateX(-50%);
+	color: #6b7280;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+	.icbLineXAxis span.isAlt {
+		display: none;
+	}
+}
+
+/* ------------------------------------------------------------------ table */
+
+.icbPanelTools {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.icbSearch {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.icbSearchInputWrap {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.icbSearchIcon {
+	position: absolute;
+	left: 12px;
+	color: #94a3b8;
+	pointer-events: none;
+}
+
+.icbSearch input[type='search'] {
+	padding: 8px 14px 8px 36px;
+	border: 1px solid #cbd5e1;
+	border-radius: 0 !important;
+	font-size: 13.5px;
+	background: #f8fafc;
+	color: #070127;
+	outline: none;
+	transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease, width 0.18s ease;
+	width: 220px;
+}
+
+.icbSearch input[type='search']:focus {
+	border-color: #146ef5;
+	background: #ffffff;
+	box-shadow: 0 0 0 3px rgba(20, 110, 245, 0.15);
+	width: 260px;
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+.icbBtn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 8px 16px !important;
+	border-radius: 0 !important;
+	font-size: 13.5px !important;
+	font-weight: 600 !important;
+	cursor: pointer;
+	transition: all 0.18s ease;
+	text-decoration: none;
+	border: 1px solid transparent !important;
+	height: 36px !important;
+	box-sizing: border-box;
+	line-height: 1 !important;
+}
+
+.icbBtnPrimary {
+	background: #146ef5 !important;
+	color: #ffffff !important;
+	border-color: #146ef5 !important;
+}
+
+.icbBtnPrimary:hover {
+	background: #0f59c7 !important;
+	border-color: #0f59c7 !important;
+	box-shadow: 0 4px 12px rgba(20, 110, 245, 0.25);
+	color: #ffffff !important;
+}
+
+.icbBtnSecondary {
+	background: #ffffff !important;
+	color: #1b2e4b !important;
+	border-color: #cbd5e1 !important;
+}
+
+.icbBtnSecondary:hover {
+	background: #f8fafc !important;
+	border-color: #94a3b8 !important;
+	color: #070127 !important;
+}
+
+.icbBtnClear {
+	color: #646970 !important;
+	font-weight: 500 !important;
+	font-size: 13px !important;
+	text-decoration: none !important;
+	margin-left: 4px;
+}
+
+.icbBtnClear:hover {
+	color: #ef4444 !important;
+}
+
+/* ----------------------------------------------------------- table markup */
+
+.icbTableWrap {
+	border: 1px solid rgba(27, 46, 75, 0.1);
+	border-radius: 0 !important;
+	overflow: hidden;
+	margin-top: 4px;
+}
+
+.icbTable {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 0;
+	background: #ffffff;
+	border: none !important;
+}
+
+.icbTable thead th {
+	background: #f8fafc;
+	color: #475569;
+	font-size: 11.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.7px;
+	padding: 14px 16px;
+	border-bottom: 1px solid #e2e8f0;
+	text-align: left;
+}
+
+.icbTable tbody td {
+	padding: 14px 16px;
+	border-bottom: 1px solid #f1f5f9;
+	vertical-align: middle;
+	font-size: 13.5px;
+	color: #1b2e4b;
+}
+
+.icbTable tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.icbTable tbody tr:hover {
+	background: #f8fafc;
+}
+
+.icbTable .icbNum {
+	width: 120px;
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+
+.icbSort {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	color: #475569;
+	text-decoration: none;
+	font-weight: 700;
+	transition: color 0.15s ease;
+}
+
+.icbSort:hover {
+	color: #146ef5;
+}
+
+.icbSort.isActive {
+	color: #146ef5;
+}
+
+.icbSortMark {
+	font-size: 11px;
+	line-height: 1;
+}
+
+.icbCardTitle {
+	font-size: 14px;
+	font-weight: 600;
+	color: #070127;
+	display: block;
+}
+
+.icbRowSource {
+	margin-top: 3px;
+	font-size: 12px;
+}
+
+.icbRowSource a {
+	color: #646970;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	transition: color 0.15s ease;
+}
+
+.icbRowSource a:hover {
+	color: #146ef5;
+	text-decoration: underline;
+}
+
+.icbMuted {
+	color: #646970;
+	font-size: 13px;
+}
+
+.icbValHighlight {
+	font-weight: 700;
+	color: #070127;
+}
+
+.icbPill {
+	display: inline-block;
+	padding: 3px 10px;
+	border-radius: 0 !important;
+	background: #f1f5f9;
+	color: #1b2e4b;
+	font-size: 11.5px;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+/* ----------------------------------------------------------------- pager */
+
+.icbPager {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 6px;
+	margin-top: 20px;
+}
+
+.icbPage {
+	min-width: 36px;
+	height: 36px;
+	padding: 0 10px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 0 !important;
+	border: 1px solid #cbd5e1;
+	background: #ffffff;
+	color: #1b2e4b;
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: all 0.15s ease;
+}
+
+.icbPage:hover {
+	border-color: #146ef5;
+	color: #146ef5;
+	background: rgba(20, 110, 245, 0.05);
+}
+
+.icbPage.isActive {
+	background: #146ef5;
+	border-color: #146ef5;
+	color: #ffffff;
+	box-shadow: 0 2px 8px rgba(20, 110, 245, 0.3);
+}
+
+/* -------------------------------------------------------------- retention */
+
+.icbRetention {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.icbRetention label {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13.5px;
+	font-weight: 600;
+	color: #1b2e4b;
+}
+
+.icbRetention label svg {
+	color: #646970;
+}
+
+#icbRetention,
+#aicRetention {
+	padding: 8px 14px;
+	border: 1px solid #cbd5e1;
+	border-radius: 0 !important;
+	font-size: 13.5px;
+	background: #f8fafc;
+	color: #070127;
+	outline: none;
+	cursor: pointer;
+	transition: border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+#aicRetention:focus {
+	border-color: #146ef5;
+	background: #ffffff;
+	box-shadow: 0 0 0 3px rgba(20, 110, 245, 0.15);
+}
+
+.icbBtnClearAnalytics {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 16px !important;
+	border-radius: 0 !important;
+	font-size: 13.5px !important;
+	font-weight: 600 !important;
+	color: #ef4444 !important;
+	background: rgba(239, 68, 68, 0.06) !important;
+	border: 1px solid rgba(239, 68, 68, 0.2) !important;
+	text-decoration: none !important;
+	cursor: pointer;
+	transition: all 0.18s ease;
+	height: 36px !important;
+	box-sizing: border-box;
+	line-height: 1 !important;
+}
+
+.icbBtnClearAnalytics:hover {
+	background: #ef4444 !important;
+	color: #ffffff !important;
+	border-color: #ef4444 !important;
+	box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+/* --------------------------------------------------------------- sparkline */
+
+.icbSparkCell {
+	width: 120px;
+	color: #146ef5;
+}
+
+.icbSpark {
+	display: block;
+	overflow: visible;
+	filter: drop-shadow(0 2px 4px rgba(20, 110, 245, 0.18));
+}
+
+.icbSpark polyline {
+	stroke-width: 2px;
+}

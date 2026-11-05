@@ -1,0 +1,118 @@
+# Copyright (C) 2025 bPlugins
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Info Cards 2.0.7\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/info-card\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-10-17T08:09:50+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: info-cards\n"
+
+#. Plugin Name of the plugin
+#: info-cards.php
+#: inc/IcbAdminMeno.php:17
+#: inc/ProadminMenu.php:20
+msgid "Info Cards"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: info-cards.php
+msgid "https://wordpress.org/plugins/info-cards/"
+msgstr ""
+
+#. Description of the plugin
+#: info-cards.php
+msgid "Create beautiful cards with text and image."
+msgstr ""
+
+#. Author of the plugin
+#: info-cards.php
+msgid "bPlugins"
+msgstr ""
+
+#. Author URI of the plugin
+#: info-cards.php
+msgid "http://bplugins.com"
+msgstr ""
+
+#: inc/IcbAdminMeno.php:16
+#: inc/ProadminMenu.php:19
+msgid "Info Cards - bPlugins"
+msgstr ""
+
+#: inc/IcbShortcode.php:21
+msgid "ShortCodes"
+msgstr ""
+
+#: inc/IcbShortcode.php:22
+#: inc/IcbShortcode.php:100
+msgid "ShortCode"
+msgstr ""
+
+#: inc/IcbShortcode.php:23
+msgid "Add New"
+msgstr ""
+
+#: inc/IcbShortcode.php:24
+msgid "Add New ShortCode"
+msgstr ""
+
+#: inc/IcbShortcode.php:25
+msgid "Edit ShortCode"
+msgstr ""
+
+#: inc/IcbShortcode.php:26
+msgid "New ShortCode"
+msgstr ""
+
+#: inc/IcbShortcode.php:27
+msgid "View ShortCode"
+msgstr ""
+
+#: inc/IcbShortcode.php:28
+msgid "Search ShortCodes"
+msgstr ""
+
+#: inc/IcbShortcode.php:29
+msgid "Sorry, we couldn't find the ShortCode you are looking for."
+msgstr ""
+
+#: inc/IcbShortcode.php:101
+msgid "Date"
+msgstr ""
+
+#: inc/IcbShortcode.php:109
+msgid "Copy To Clipboard"
+msgstr ""
+
+#: inc/ProadminMenu.php:31
+msgid "Help And Demo - bPlugins"
+msgstr ""
+
+#: inc/ProadminMenu.php:32
+msgid "Help And Demo"
+msgstr ""
+
+#: inc/upgradePage.php:14
+msgid "Info Cards - Upgrade"
+msgstr ""
+
+#: inc/upgradePage.php:15
+msgid "Upgrade"
+msgstr ""
+
+#: build/block.json
+msgctxt "block title"
+msgid "Info Cards"
+msgstr ""
+
+#: build/block.json
+msgctxt "block description"
+msgid "info-card block plugin"
+msgstr ""

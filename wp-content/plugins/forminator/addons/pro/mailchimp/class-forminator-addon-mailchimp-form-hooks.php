@@ -1,0 +1,873 @@
+<?php
+/**
+ * Addon Mailchimp form hook.
+ *
+ * @package Forminator
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class Forminator_Mailchimp_Form_Hooks
+ *
+ * Hooks that used by Mailchimp Integration defined here
+ *
+ * @since 1.0 Mailchimp Integration
+ */
+class Forminator_Mailchimp_Form_Hooks extends Forminator_Integration_Form_Hooks {
+
+	/**
+	 * Input name of the GDPR field
+	 *
+	 * @since 1.58.0
+	 */
+	const GDPR_FIELD_NAME = 'forminator-addon-mailchimp-gdpr';
+
+	/**
+	 * Render extra fields after all forms fields rendered
+	 *
+	 * @since 1.0 Mailchimp Integration
+	 */
+	public function on_after_render_form_fields() {
+		$addon_setting_values = $this->settings_instance->get_settings_values();
+		if ( self::is_gdpr_field_enabled( $addon_setting_values ) ) {
+			$this->render_gdpr_field( $addon_setting_values );
+		}
+
+		$form_id                = $this->module_id;
+		$form_settings_instance = $this->settings_instance;
+
+		/**
+		 * Fires when mailchimp rendering extra output after connected form fields rendered
+		 *
+		 * @since 1.1
+		 *
+		 * @param int                                      $form_id                current Form ID.
+		 * @param Forminator_Mailchimp_Form_Settings $form_settings_instance Mailchimp Form settings Instance.
+		 */
+		do_action(
+			'forminator_addon_mailchimp_on_after_render_form_fields',
+			$form_id,
+			$form_settings_instance
+		);
+	}
+
+	/**
+	 * Render GDPR Field - Experimental
+	 *
+	 * @since 1.0 Mailchimp Integration
+	 *
+	 * @param array $addon_setting_values Addon settings values.
+	 */
+	private function render_gdpr_field( $addon_setting_values ) {
+		$input_id = esc_attr( self::GDPR_FIELD_NAME . '-' . uniqid() );
+
+		// Same markup as the Consent field, so that current form designs style it.
+		$html  = sprintf(
+			'<div class="forminator-row"><div id="field-%s" class="forminator-col forminator-col-12"><div class="forminator-field">',
+			$input_id
+		);
+		$html .= sprintf(
+			'<label for="%1$s" id="%1$s-label" class="forminator-label">%2$s</label>',
+			$input_id,
+			esc_html__( 'Mailchimp GDPR', 'forminator' )
+		);
+		$html .= '<div class="forminator-checkbox__wrapper">';
+		$html .= sprintf( '<label id="%s__label" class="forminator-checkbox">', $input_id );
+		$html .= sprintf(
+			'<input type="checkbox" name="%1$s" id="%2$s" value="1" aria-labelledby="%2$s-label" aria-describedby="%2$s__description" />',
+			esc_attr( self::GDPR_FIELD_NAME ),
+			$input_id
+		);
+		$html .= '<span class="forminator-checkbox-box" aria-hidden="true"></span>';
+		$html .= '</label>';
+		$html .= sprintf(
+			'<div id="%s__description" class="forminator-checkbox__label">%s</div>',
+			$input_id,
+			wp_kses_post( $addon_setting_values['gdpr_text'] )
+		);
+		$html .= '</div></div></div></div>';
+
+		// `wp_kses_post()` is not used here because it strips `<input>` tags.
+		echo wp_kses( $html, self::gdpr_field_allowed_html() );
+	}
+
+	/**
+	 * Allowed HTML tags of the GDPR field markup
+	 *
+	 * @since 1.58.0
+	 *
+	 * @return array
+	 */
+	private static function gdpr_field_allowed_html() {
+		$allowed_html = wp_kses_allowed_html( 'post' );
+
+		$allowed_html['input'] = array(
+			'id'               => array(),
+			'type'             => array(),
+			'name'             => array(),
+			'value'            => array(),
+			'aria-labelledby'  => array(),
+			'aria-describedby' => array(),
+		);
+
+		return $allowed_html;
+	}
+
+	/**
+	 * Check whether the GDPR field is enabled for this form
+	 *
+	 * @since 1.58.0
+	 *
+	 * @param array $addon_setting_values Addon settings values.
+	 *
+	 * @return bool
+	 */
+	private static function is_gdpr_field_enabled( $addon_setting_values ) {
+		return Forminator_Mailchimp::is_enable_gdpr()
+			&& ! empty( $addon_setting_values['enable_gdpr'] )
+			&& ! empty( $addon_setting_values['gdpr_text'] );
+	}
+
+	/**
+	 * Check whether the GDPR field was checked on submit
+	 *
+	 * The submitted data is read here instead of being remembered from `on_module_submit()`,
+	 * because each submission phase runs on its own hooks instance.
+	 *
+	 * @see forminator_get_addons_instance_connected_with_module() Returns a clone of the integration on every call.
+	 *
+	 * @since 1.58.0
+	 *
+	 * @param array $submitted_data Submitted data.
+	 *
+	 * @return bool
+	 */
+	private static function is_gdpr_checked( $submitted_data ) {
+		return isset( $submitted_data[ self::GDPR_FIELD_NAME ] )
+			&& '1' === (string) $submitted_data[ self::GDPR_FIELD_NAME ];
+	}
+
+	/**
+	 * Check whether the GDPR field was checked on submit
+	 *
+	 * The submitted data is read here instead of being remembered from `on_module_submit()`,
+	 * because each submission phase runs on its own hooks instance.
+	 *
+	 * @see forminator_get_addons_instance_connected_with_module() Returns a clone of the integration on every call.
+	 *
+	 * @since 1.58.0
+	 *
+	 * @param array $submitted_data Submitted data.
+	 *
+	 * @return bool
+	 */
+	public function on_module_submit( $submitted_data ) {
+		$is_success = true;
+
+		$form_id                = $this->module_id;
+		$form_settings_instance = $this->settings_instance;
+
+		/**
+		 * Filter mailchimp submitted form data to be processed
+		 *
+		 * @since 1.1
+		 *
+		 * @param array                                    $submitted_data
+		 * @param int                                      $form_id                current Form ID.
+		 * @param Forminator_Mailchimp_Form_Settings $form_settings_instance Mailchimp API Form Settings instance.
+		 */
+		$submitted_data = apply_filters(
+			'forminator_addon_mailchimp_form_submitted_data',
+			$submitted_data,
+			$form_id,
+			$form_settings_instance
+		);
+
+		/**
+		 * Fires when mailchimp connected form submit data
+		 *
+		 * Return `true` if success, or **(string) error message** on fail
+		 *
+		 * @since 1.1
+		 *
+		 * @param bool                                     $is_success
+		 * @param int                                      $form_id                current Form ID.
+		 * @param array                                    $submitted_data
+		 * @param Forminator_Mailchimp_Form_Settings $form_settings_instance Mailchimp API Form Settings instance.
+		 */
+		$is_success = apply_filters(
+			'forminator_addon_mailchimp_on_form_submit_result',
+			$is_success,
+			$form_id,
+			$submitted_data,
+			$form_settings_instance
+		);
+
+		// process filter.
+		if ( true !== $is_success ) {
+			// only update `submit_error_message` when not empty.
+			if ( ! empty( $is_success ) ) {
+				$this->submit_error_message = (string) $is_success;
+			}
+
+			return $is_success;
+		}
+
+		// only exec this below when filter return true.
+		// check is enabled.
+		if ( ! Forminator_Mailchimp::is_enable_gdpr() ) {
+			return true;
+		}
+
+		// Add field data to the entry metadata so it can be used in the `custom_entry_fields()` method.
+		// This data needs to be saved in the database to support the `post_submission_process()` when a webhook is received.
+		Forminator_CForm_Front_Action::$info['field_data_array'][] = array(
+			'name'  => self::GDPR_FIELD_NAME,
+			'value' => $submitted_data[ self::GDPR_FIELD_NAME ] ? '1' : '0',
+		);
+
+		return true;
+	}
+
+	/**
+	 * Return custom entry fields
+	 *
+	 * @param array $submitted_data Submitted data.
+	 * @param array $current_entry_fields Current entry fields.
+	 * @return array
+	 * @throws Forminator_Integration_Exception Integration Exception.
+	 */
+	protected function custom_entry_fields( $submitted_data, $current_entry_fields ): array {
+		$entry                  = func_get_args()[2];
+		$form_id                = $this->module_id;
+		$form_settings_instance = $this->settings_instance;
+		$gdpr                   = false;
+
+		// Check if there is a date field-type then modify it to a format that mailchimp accepts.
+		foreach ( $submitted_data as $field => $value ) {
+			// Also Check the date field doesn't include the '-year', '-month' or '-day'.
+			if (
+				false !== stripos( $field, 'date-' ) &&
+				false === stripos( $field, '-year' ) &&
+				false === stripos( $field, '-month' ) &&
+				false === stripos( $field, '-day' ) &&
+				! empty( $value )
+				) {
+				$date_format              = Forminator_API::get_form_field( $form_id, $field, false )->date_format;
+				$normalized_format        = new Forminator_Date();
+				$normalized_format        = $normalized_format->normalize_date_format( $date_format );
+				$mailchimp_format         = DateTime::createFromFormat( $normalized_format, $value );
+				$mailchimp_formatted      = $mailchimp_format->format( 'Y-m-d' );
+				$submitted_data[ $field ] = $mailchimp_formatted;
+			}
+			if (
+				! empty( $value ) &&
+				( false !== strpos( $field, 'gdprcheckbox' ) || false !== strpos( $field, 'consent' ) )
+			) {
+				$gdpr = true;
+			}
+		}
+
+		$addon_setting_values = $form_settings_instance->get_settings_values();
+		// initialize as null.
+		$mailchimp_api = null;
+
+		$settings_values = $this->addon->get_settings_values();
+		$identifier      = $settings_values['identifier'] ?? '';
+		$entry_name      = 'status';
+		if ( ! empty( $this->addon->multi_global_id ) ) {
+			$entry_name .= "-{$this->addon->multi_global_id}";
+		}
+
+		// check required fields.
+		try {
+			$mailchimp_api = $this->addon->get_api();
+
+			// Don't send the subscriber when the GDPR field is enabled but was not checked.
+			if ( self::is_gdpr_field_enabled( $addon_setting_values ) && ! self::is_gdpr_checked( $submitted_data ) ) {
+				throw new Forminator_Integration_Exception(
+					esc_html__(
+						'Forminator Mailchimp integration did not send subscriber to Mailchimp as GDPR field was not checked on input',
+						'forminator'
+					)
+				);
+			}
+
+			// EMAIL : super required**.
+			if ( ! isset( $addon_setting_values['fields_map']['EMAIL'] ) ) {
+				throw new Forminator_Integration_Exception(
+				/* translators: 1: EMAIL */
+					sprintf( esc_html__( 'Required Field %1$s not mapped yet to Forminator Form Field, Please check your Mailchimp Configuration on Form Settings', 'forminator' ), 'EMAIL' )
+				);
+			}
+
+			if ( ! isset( $submitted_data[ $addon_setting_values['fields_map']['EMAIL'] ] ) || empty( $submitted_data[ $addon_setting_values['fields_map']['EMAIL'] ] ) ) {
+				throw new Forminator_Integration_Exception(
+				/* translators: 1: Email */
+					sprintf( esc_html__( 'Required Field %1$s is not filled by user', 'forminator' ), 'EMAIL' )
+				);
+			}
+
+			$mailchimp_fields_list_request = $this->addon->get_api()->get_list_merge_fields( $addon_setting_values['mail_list_id'], array() );
+			forminator_addon_maybe_log( __METHOD__, $mailchimp_fields_list_request );
+			$mailchimp_required_fields = array();
+			$mailchimp_fields_list     = array();
+			if ( isset( $mailchimp_fields_list_request->merge_fields ) && is_array( $mailchimp_fields_list_request->merge_fields ) && ! empty( $mailchimp_fields_list_request->merge_fields ) ) {
+				$mailchimp_fields_list = $mailchimp_fields_list_request->merge_fields;
+			}
+
+			foreach ( $mailchimp_fields_list as $item ) {
+				if ( $item->required ) {
+					$mailchimp_required_fields[] = $item;
+				} elseif ( 'address' === $item->type ) {
+					if ( ! empty( $addon_setting_values['fields_map'][ $item->tag ] ) ) {
+						// If it's not required, but there is some data mapped and submitted, we also need to check it as required because Mailchimp will return an error if the data is incomplete.
+						$address_fields = $form_settings_instance->mail_address_fields();
+						foreach ( $address_fields as $addr => $address ) {
+							if ( ! empty( $addon_setting_values['fields_map'][ $item->tag ][ $addr ] )
+								&& ! empty( $submitted_data[ $addon_setting_values['fields_map'][ $item->tag ][ $addr ] ] ) ) {
+								$mailchimp_required_fields[] = $item;
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			// check required fields fulfilled.
+			foreach ( $mailchimp_required_fields as $mailchimp_required_field ) {
+				if ( 'address' === $mailchimp_required_field->type ) {
+					$address_fields = $form_settings_instance->mail_address_fields();
+					foreach ( $address_fields as $addr => $address ) {
+						if ( in_array( $addr, array( 'addr2', 'country' ), true ) ) {
+							continue; // Skip addr2 and country as they are not required by Mailchimp.
+						}
+						if ( ! isset( $addon_setting_values['fields_map'][ $mailchimp_required_field->tag ][ $addr ] ) ) {
+							throw new Forminator_Integration_Exception(
+								sprintf(
+								/* translators: 1: Required field name */
+									esc_html__( 'Required Field %1$s not mapped yet to Forminator Form Field, Please check your Mailchimp Configuration on Form Settings', 'forminator' ),
+									esc_html( $mailchimp_required_field->name )
+								)
+							);
+						}
+
+						if ( ! isset( $submitted_data[ $addon_setting_values['fields_map'][ $mailchimp_required_field->tag ][ $addr ] ] )
+							|| empty( $submitted_data[ $addon_setting_values['fields_map'][ $mailchimp_required_field->tag ][ $addr ] ] ) ) {
+							throw new Forminator_Integration_Exception(
+								sprintf(
+								/* translators: 1: Required field name */
+									esc_html__( 'Required Field %1$s not filled by user', 'forminator' ),
+									esc_html( $mailchimp_required_field->name )
+								)
+							);
+						}
+					}
+				} else {
+					if ( ! isset( $addon_setting_values['fields_map'][ $mailchimp_required_field->tag ] ) ) {
+						throw new Forminator_Integration_Exception(
+							sprintf(
+							/* translators: 1: Required field name */
+								esc_html__( 'Required Field %1$s not mapped yet to Forminator Form Field, Please check your Mailchimp Configuration on Form Settings', 'forminator' ),
+								esc_html( $mailchimp_required_field->name )
+							)
+						);
+					}
+
+					$element_id      = $addon_setting_values['fields_map'][ $mailchimp_required_field->tag ];
+					$is_calculation  = self::element_is_calculation( $element_id );
+					$is_stripe       = self::element_is_stripe( $element_id );
+					$has_submit_data = isset( $submitted_data[ $element_id ] ) && ! empty( $submitted_data[ $element_id ] );
+
+					if ( ! $is_calculation && ! $is_stripe && ! $has_submit_data ) {
+						throw new Forminator_Integration_Exception(
+							sprintf(
+							/* translators: 1: Required field name */
+								esc_html__( 'Required Field %1$s not filled by user', 'forminator' ),
+								esc_html( $mailchimp_required_field->name )
+							)
+						);
+					}
+				}
+			}
+
+			// check if user already on the list.
+			$subscriber_hash = md5( strtolower( trim( $submitted_data[ $addon_setting_values['fields_map']['EMAIL'] ] ) ) );
+
+			$is_double_opt_in_enabled = isset( $addon_setting_values['enable_double_opt_in'] ) && filter_var( $addon_setting_values['enable_double_opt_in'], FILTER_VALIDATE_BOOLEAN ) ? true : false;
+			$status                   = 'subscribed';
+			if ( $is_double_opt_in_enabled ) {
+				$status = 'pending';
+			}
+
+			try {
+				// keep subscribed if already subscribed.
+				$member_status_request = $mailchimp_api->get_member( $addon_setting_values['mail_list_id'], $subscriber_hash, array() );
+				if ( isset( $member_status_request->status ) && ! empty( $member_status_request->status ) ) {
+					if ( 'subscribed' === $member_status_request->status ) {
+						// already subscribed, keep it subscribed, just update merge_fields.
+						$status = 'subscribed';
+					}
+				}
+			} catch ( Forminator_Integration_Exception $e ) {
+				// Member not yet subscribed, keep going on, mark status based on double-opt-in option.
+				if ( $is_double_opt_in_enabled ) {
+					$status = 'pending';
+				}
+			}
+
+			$args = array(
+				'status'        => $status,
+				'status_if_new' => $status,
+				'email_address' => strtolower( trim( $submitted_data[ $addon_setting_values['fields_map']['EMAIL'] ] ) ),
+			);
+
+			$merge_fields = array();
+			foreach ( $mailchimp_fields_list as $item ) {
+				// its mapped ?
+				if ( 'address' === $item->type ) {
+					$address_fields = $form_settings_instance->mail_address_fields();
+					foreach ( $address_fields as $addr => $address ) {
+						if ( isset( $addon_setting_values['fields_map'][ $item->tag ] ) && ! empty( $addon_setting_values['fields_map'][ $item->tag ] ) ) {
+							if ( isset( $submitted_data[ $addon_setting_values['fields_map'][ $item->tag ][ $addr ] ] ) && ! empty( $submitted_data[ $addon_setting_values['fields_map'][ $item->tag ][ $addr ] ] ) ) {
+								$merge_fields[ $item->tag ][ $addr ] = trim( $submitted_data[ $addon_setting_values['fields_map'][ $item->tag ][ $addr ] ] );
+							}
+						}
+					}
+				} elseif ( isset( $addon_setting_values['fields_map'][ $item->tag ] ) && ! empty( $addon_setting_values['fields_map'][ $item->tag ] ) ) {
+						$element_id = $addon_setting_values['fields_map'][ $item->tag ];
+					if ( ! isset( $submitted_data[ $element_id ] ) ) {
+						continue;
+					}
+						$merge_fields[ $item->tag ] = $submitted_data[ $element_id ];
+					if ( in_array( $item->type, array( 'date', 'birthday' ), true ) ) {
+						$time = strtotime( $submitted_data[ $element_id ] );
+						if ( $time ) {
+							$format = 'birthday' === $item->type ? 'm/d' : 'm/d/Y';
+
+							$merge_fields[ $item->tag ] = gmdate( $format, $time );
+						}
+					}
+				}
+			}
+
+			forminator_addon_maybe_log( __METHOD__, $mailchimp_fields_list, $addon_setting_values, $submitted_data, $merge_fields );
+
+			if ( ! empty( $merge_fields ) ) {
+				$args['merge_fields'] = $merge_fields;
+			}
+
+			$args = self::maybe_add_additional_data( $args, $addon_setting_values, $gdpr );
+
+			$mail_list_id = $addon_setting_values['mail_list_id'];
+
+			/**
+			 * Filter mail list id to send to Mailchimp API
+			 *
+			 * Change $mail_list_id that will be send to Mailchimp API,
+			 * Any validation required by the mail list should be done.
+			 * Else if it's rejected by Mailchimp API, It will only add Request to Log.
+			 * Log can be viewed on Entries Page
+			 *
+			 * @since 1.1
+			 *
+			 * @param string                                   $mail_list_id
+			 * @param int                                      $form_id                current Form ID.
+			 * @param array                                    $submitted_data         Submitted data.
+			 * @param Forminator_Mailchimp_Form_Settings $form_settings_instance Mailchimp Form Settings.
+			 */
+			$mail_list_id = apply_filters(
+				'forminator_addon_mailchimp_add_update_member_request_mail_list_id',
+				$mail_list_id,
+				$form_id,
+				$submitted_data,
+				$form_settings_instance
+			);
+
+			/**
+			 * Filter Mailchimp API request arguments
+			 *
+			 * Request Arguments will be added to request body.
+			 * Default args that will be send contains these keys:
+			 * - status
+			 * - status_if_new
+			 * - merge_fields
+			 * - email_address
+			 * - interests
+			 *
+			 * @since 1.1
+			 *
+			 * @param array                                    $args
+			 * @param int                                      $form_id                current Form ID.
+			 * @param array                                    $submitted_data         Submitted data.
+			 * @param Forminator_Mailchimp_Form_Settings $form_settings_instance Mailchimp Form Settings.
+			 */
+			$args = apply_filters(
+				'forminator_addon_mailchimp_add_update_member_request_args',
+				$args,
+				$form_id,
+				$submitted_data,
+				$form_settings_instance
+			);
+
+			/**
+			 * Fires before Integration send request `add_or_update_member` to Mailchimp API
+			 *
+			 * If this action throw an error,
+			 * then `add_or_update_member` process will be cancelled
+			 *
+			 * @since 1.1
+			 *
+			 * @param int                                      $form_id                current Form ID.
+			 * @param array                                    $submitted_data         Submitted data.
+			 * @param Forminator_Mailchimp_Form_Settings $form_settings_instance Mailchimp Form Settings.
+			 */
+			do_action( 'forminator_addon_mailchimp_before_add_update_member', $form_id, $submitted_data, $form_settings_instance );
+
+			$add_member_request = $mailchimp_api->add_or_update_member( $mail_list_id, $subscriber_hash, $args );
+			if ( ! isset( $add_member_request->id ) || ! $add_member_request->id ) {
+				throw new Forminator_Integration_Exception(
+					esc_html__(
+						'Failed adding or updating member on Mailchimp list',
+						'forminator'
+					)
+				);
+			}
+
+			forminator_addon_maybe_log( __METHOD__, 'Success Add Member' );
+
+			$entry_fields = array(
+				array(
+					'value' => array(
+						'is_sent'       => true,
+						'description'   => esc_html__( 'Successfully added or updated member on Mailchimp list', 'forminator' ),
+						'data_sent'     => $mailchimp_api->get_last_data_sent(),
+						'data_received' => $mailchimp_api->get_last_data_received(),
+						'url_request'   => $mailchimp_api->get_last_url_request(),
+					),
+				),
+			);
+
+		} catch ( Forminator_Integration_Exception $e ) {
+			forminator_addon_maybe_log( __METHOD__, 'Failed to Add Member' );
+
+			$entry_fields = array(
+				array(
+					'value' => array(
+						'is_sent'       => false,
+						'description'   => $e->getMessage(),
+						'data_sent'     => ( ( $mailchimp_api instanceof Forminator_Mailchimp_Wp_Api ) ? $mailchimp_api->get_last_data_sent() : array() ),
+						'data_received' => ( ( $mailchimp_api instanceof Forminator_Mailchimp_Wp_Api ) ? $mailchimp_api->get_last_data_received() : array() ),
+						'url_request'   => ( ( $mailchimp_api instanceof Forminator_Mailchimp_Wp_Api ) ? $mailchimp_api->get_last_url_request() : '' ),
+					),
+				),
+			);
+		}
+
+		$entry_fields[0]['name']                     = $entry_name;
+		$entry_fields[0]['value']['connection_name'] = $identifier;
+
+		return $entry_fields;
+	}
+
+	/**
+	 * Add additional data if needed.
+	 *
+	 * @param array $args Existed arguments.
+	 * @param array $addon_setting_values Integration settings.
+	 * @param bool  $gdpr Is a GDPR field exist or not.
+	 * @return array
+	 */
+	private static function maybe_add_additional_data( $args, $addon_setting_values, $gdpr ) {
+		if ( ! empty( $addon_setting_values['group_interest'] ) ) {
+			$interests         = (array) $addon_setting_values['group_interest'];
+			$args['interests'] = array_fill_keys( $interests, true );
+		}
+
+		if ( ! empty( $addon_setting_values['tags'] ) ) {
+			$args['tags'] = array_values( $addon_setting_values['tags'] );
+		}
+
+		if ( true === $gdpr && ! empty( $addon_setting_values['gdpr'] ) ) {
+			$args['marketing_permissions'] = self::prepare_marketing_permissions( $addon_setting_values['gdpr'] );
+		}
+
+		return $args;
+	}
+
+	/**
+	 * Prepare GDPR fields for Mailchimp API
+	 *
+	 * @param array $gdpr_fields Saved GDPR fields.
+	 * @return array
+	 */
+	private static function prepare_marketing_permissions( $gdpr_fields ) {
+		$permissions = array();
+		foreach ( $gdpr_fields as $key => $title ) {
+			$permissions[] = array(
+				'marketing_permission_id' => $key,
+				'enabled'                 => true,
+			);
+		}
+
+		return $permissions;
+	}
+
+	/**
+	 * Add member status information
+	 *
+	 * @param array $sub_entries Sub-entries.
+	 * @param array $addon_data Integration meta data.
+	 * @return void
+	 */
+	public static function add_extra_entry_items( array &$sub_entries, array $addon_data ) {
+		if ( isset( $addon_data['data_received'] ) && is_object( $addon_data['data_received'] ) ) {
+			$data_received = $addon_data['data_received'];
+			if ( ! empty( $data_received->status ) && is_string( $data_received->status ) ) {
+				$sub_entries[] = array(
+					'label' => esc_html__( 'Member Status', 'forminator' ),
+					'value' => strtoupper( $data_received->status ),
+				);
+			}
+		}
+	}
+
+	/**
+	 * It will delete members on mailchimp list
+	 *
+	 * @since 1.0 Mailchimp Integration
+	 *
+	 * @param Forminator_Form_Entry_Model $entry_model Form entry model.
+	 * @param  array                       $addon_meta_data Addon meta data.
+	 *
+	 * @return bool
+	 */
+	public function on_before_delete_entry( Forminator_Form_Entry_Model $entry_model, $addon_meta_data ) {
+		// attach hook first.
+		$form_id                = $this->module_id;
+		$form_settings_instance = $this->settings_instance;
+
+		/**
+		 *
+		 * Filter mailchimp integration metadata that previously saved on db to be processed
+		 *
+		 * Although it can be used for all integration.
+		 * Please keep in mind that if the integration override this method,
+		 * then this filter probably won't be applied.
+		 * To be sure please check individual integration documentations.
+		 *
+		 * @since 1.1
+		 *
+		 * @param array                                        $addon_meta_data
+		 * @param int                                          $form_id                current Form ID.
+		 * @param Forminator_Form_Entry_Model                  $entry_model            Forminator Entry Model.
+		 * @param Forminator_Integration_Form_Settings|null $form_settings_instance of Integration Form Settings.
+		 */
+		$addon_meta_data = apply_filters(
+			'forminator_addon_mailchimp_metadata',
+			$addon_meta_data,
+			$form_id,
+			$entry_model,
+			$form_settings_instance
+		);
+
+		/**
+		 * Fires when mailchimp connected form delete a submission
+		 *
+		 * Although it can be used for all integration.
+		 * Please keep in mind that if the integration override this method,
+		 * then this action won't be triggered.
+		 * To be sure please check individual integration documentations.
+		 *
+		 * @since 1.1
+		 *
+		 * @param int                                          $form_id                current Form ID.
+		 * @param Forminator_Form_Entry_Model                  $entry_model            Forminator Entry Model.
+		 * @param array                                        $addon_meta_data        integration meta data.
+		 * @param Forminator_Integration_Form_Settings|null $form_settings_instance of Integration Form Settings.
+		 */
+		do_action(
+			'forminator_addon_mailchimp_on_before_delete_submission',
+			$form_id,
+			$entry_model,
+			$addon_meta_data,
+			$form_settings_instance
+		);
+
+		if ( ! Forminator_Mailchimp::is_enable_delete_member() ) {
+			// its disabled, go for it!
+			return true;
+		}
+		$mailchimp_api = null;
+		try {
+			$delete_member_url = '';
+			/**
+			 * Filter delete member url to send to mailchimp api
+			 */
+			$delete_member_url = apply_filters(
+				'forminator_addon_mailchimp_delete_member_url',
+				$delete_member_url,
+				$form_id,
+				$addon_meta_data,
+				$form_settings_instance
+			);
+
+			if ( empty( $delete_member_url ) ) {
+				$multi_global_id   = $this->addon->multi_global_id;
+				$expected_name     = ! empty( $multi_global_id ) ? 'status-' . $multi_global_id : 'status';
+				$connection_meta   = array_values(
+					array_filter(
+						$addon_meta_data,
+						function ( $item ) use ( $expected_name ) {
+							return isset( $item['name'] ) && $item['name'] === $expected_name;
+						}
+					)
+				);
+				$delete_member_url = self::get_delete_member_url_from_addon_meta_data( $connection_meta );
+			}
+
+			forminator_addon_maybe_log( __METHOD__, $delete_member_url );
+
+			if ( ! empty( $delete_member_url ) ) {
+				$mailchimp_api = $this->addon->get_api();
+				$mailchimp_api->delete_( $delete_member_url );
+			}
+
+			return true;
+
+		} catch ( Forminator_Integration_Exception $e ) {
+			// its not found, probably already deleted on mailchimp.
+			return true;
+		} catch ( Forminator_Integration_Exception $e ) {
+			// handle all internal integration exceptions with `Forminator_Integration_Exception`.
+
+			// use wp_error, for future usage it can be returned to page entries.
+			$wp_error = new WP_Error( 'forminator_addon_mailchimp_delete_member', $e->getMessage() );
+			// handle this in integration by self, since page entries cant handle error messages on delete yet.
+			wp_die(
+				esc_html( $wp_error->get_error_message() ),
+				esc_html( $this->addon->get_title() ),
+				array(
+					'response'  => 200,
+					'back_link' => true,
+				)
+			);
+
+			return false;
+		}
+	}
+
+	/**
+	 * Get valid integration meta data
+	 *
+	 * @since 1.0 Mailchimp Integration
+	 *
+	 * @param array $addon_meta_data Addon meta data.
+	 *
+	 * @return array
+	 */
+	public static function get_valid_addon_meta_data_value( $addon_meta_data ) {
+		// preliminary check of integration_meta_data.
+		if ( ! isset( $addon_meta_data[0] ) || ! is_array( $addon_meta_data[0] ) ) {
+			return array();
+		}
+
+		$addon_meta_data = $addon_meta_data[0];
+
+		// make sure its `status` or `status-{global_id}`, because we only add this.
+		if ( 'status' !== $addon_meta_data['name'] && 0 !== stripos( $addon_meta_data['name'], 'status-' ) ) {
+			return array();
+		}
+		if ( ! isset( $addon_meta_data['value'] ) || ! is_array( $addon_meta_data['value'] ) ) {
+			return array();
+		}
+
+		return $addon_meta_data['value'];
+	}
+
+	/**
+	 * Get DELETE member url form saved integration meta data
+	 *
+	 * @since 1.0 Mailchimp Integration
+	 *
+	 * @param array $addon_meta_data Addon meta data.
+	 *
+	 * @return string
+	 */
+	public static function get_delete_member_url_from_addon_meta_data( $addon_meta_data ) {
+
+		// delete links available on data_received of mailchimp.
+		/** == Integration meta data reference ==
+		// [
+		// {.
+		// "name": "status",
+		// "value": {.
+		// "is_sent": true,
+		// "description": "Successfully added or updated member on Mailchimp list",.
+		// "data_sent": {.
+		// ...
+		// },
+		// "data_received": {.
+		// "id": "XXXXXXX",
+		// ...
+		// "list_id": "XXXXXXX",.
+		// "_links": [.
+		// {.
+		// "rel": "upsert",
+		// "href": "https:\/\/us9.api.mailchimp.com\/3.0\/lists\/XXXXXXX\/members\/XXXXXXX",.
+		// "method": "PUT",.
+		// "targetSchema": "https:\/\/us9.api.mailchimp.com\/schema\/3.0\/Definitions\/Lists\/Members\/Response.json",.
+		// "schema": "https:\/\/us9.api.mailchimp.com\/schema\/3.0\/Definitions\/Lists\/Members\/PUT.json".
+		// },.
+		// {.
+		// "rel": "delete",
+		// "href": "https:\/\/us9.api.mailchimp.com\/3.0\/lists\/XXXXXXX\/members\/XXXXXXX",.
+		// "method": "DELETE".
+		// },.
+		// ...
+		// ].
+		// },.
+		// "url_request": "https:\/\/us9.api.mailchimp.com\/3.0\/lists\/XXXX\/members\/XXXXXXX".
+		// }.
+		// }.
+		// ]
+		== Integration meta data reference == */
+
+		$delete_member_url = '';
+
+		$meta_data_value = self::get_valid_addon_meta_data_value( $addon_meta_data );
+		if ( empty( $meta_data_value ) ) {
+			// probably this entry added before connected to mailchimp, mark it as okay to delete entry.
+			return '';
+		}
+
+		if ( isset( $meta_data_value['is_sent'] ) && ! $meta_data_value['is_sent'] ) {
+			// its not sent to mailchimp so it won't have delete member uri.
+			return '';
+		}
+
+		if ( ! isset( $meta_data_value['data_received'] ) || ! is_object( $meta_data_value['data_received'] ) ) {
+			// something is happened on integration meta data.
+			return '';
+		}
+
+		$data_received = $meta_data_value['data_received'];
+
+		if ( ! isset( $data_received->_links ) || ! is_array( $data_received->_links ) ) {
+			// something is happened on integration meta data.
+			return '';
+		}
+
+		foreach ( $data_received->_links as $link ) {
+			if ( ! isset( $link->rel ) || ! isset( $link->method ) || ! isset( $link->href ) ) {
+				continue;
+			}
+			if ( 'delete' === $link->rel && 'DELETE' === $link->method ) {
+				$delete_member_url = $link->href;
+			}
+		}
+
+		return $delete_member_url;
+	}
+}

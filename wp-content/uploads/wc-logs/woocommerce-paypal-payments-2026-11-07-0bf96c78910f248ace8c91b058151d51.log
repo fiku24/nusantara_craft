@@ -1,0 +1,6 @@
+2026-11-07T08:03:50+00:00 DEBUG #9546.WC - [New Request] POST /nusantara_craft/ @ 08:03:48.534
+2026-11-07T08:03:50+00:00 ERROR #9546.WC - SDK v6 client token runtime error: Cannot request a PayPal client token without a client ID and secret.
+2026-11-07T08:03:58+00:00 DEBUG #2876.WC - [New Request] POST /nusantara_craft/ @ 08:03:56.357
+2026-11-07T08:03:58+00:00 ERROR #2876.WC - SDK v6 client token runtime error: Cannot request a PayPal client token without a client ID and secret.
+2026-11-07T08:04:04+00:00 DEBUG #2575.WC - [New Request] POST /nusantara_craft/ @ 08:04:02.240
+2026-11-07T08:04:04+00:00 ERROR #2575.WC - SDK v6 client token runtime error: Cannot request a PayPal client token without a client ID and secret.

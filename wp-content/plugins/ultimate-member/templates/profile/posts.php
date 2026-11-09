@@ -1,0 +1,62 @@
+<?php
+/**
+ * Template for the profile posts
+ *
+ * This template can be overridden by copying it to your-theme/ultimate-member/profile/posts.php
+ *
+ * Page: "Profile"
+ *
+ * @version 2.14.0
+ *
+ * @var object $posts
+ * @var int    $count_posts
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+	//Only for AJAX loading posts
+	if ( ! empty( $posts ) ) {
+		foreach ( $posts as $post ) {
+			UM()->get_template( 'profile/posts-single.php', '', array( 'post' => $post ), true );
+		}
+	}
+} elseif ( ! empty( $posts ) ) {
+	?>
+	<div class="um-ajax-items">
+		<?php
+		foreach ( $posts as $post ) {
+			UM()->get_template( 'profile/posts-single.php', '', array( 'post' => $post ), true );
+		}
+
+		if ( $count_posts > 10 ) {
+			?>
+			<div class="um-load-items">
+				<a href="javascript:void(0);" class="um-ajax-paginate um-button" data-hook="um_load_posts"
+					data-author="<?php echo esc_attr( um_get_requested_user() ); ?>" data-page="1"
+					data-pages="<?php echo esc_attr( ceil( $count_posts / 10 ) ); ?>"
+					data-nonce="<?php echo esc_attr( wp_create_nonce( 'um-ajax-paginate-um_load_posts' . um_get_requested_user() ) ); ?>">
+					<?php esc_html_e( 'load more posts', 'ultimate-member' ); ?>
+				</a>
+			</div>
+			<?php
+		}
+		?>
+	</div>
+	<?php
+} else {
+	?>
+	<div class="um-profile-note">
+		<span>
+			<?php
+			if ( um_profile_id() == get_current_user_id() ) {
+				esc_html_e( 'You have not created any posts.', 'ultimate-member' );
+			} else {
+				esc_html_e( 'This user has not created any posts.', 'ultimate-member' );
+			}
+			?>
+		</span>
+	</div>
+	<?php
+}

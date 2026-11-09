@@ -1,0 +1,65 @@
+msgid "Location"
+msgstr "Lokasi"
+
+msgid "Search Google Maps"
+msgstr "Telusuri Google Maps"
+
+msgid "Create shipment"
+msgstr "Lakukan pengiriman"
+
+msgid "Cancel shipment"
+msgstr "Batalkan pengiriman"
+
+msgid "Coordinate"
+msgstr "Koordinat"
+
+msgid "Shipper name"
+msgstr "Nama pengirima"
+
+msgid "Shipper phone"
+msgstr "Nomor HP Pengirim"
+
+msgid "Pickup location point."
+msgstr "Titik pengambilan barang."
+
+msgid "Confirmed"
+msgstr "Dikonfirmasi"
+
+msgid "Cancelled"
+msgstr "Dibatalkan"
+
+msgid "Allocated"
+msgstr "Dialokasikan"
+
+msgid "Picking Up"
+msgstr "Sedang Menjemput"
+
+msgid "Picked"
+msgstr "Telah Dijemput"
+
+msgid "Dropping Off"
+msgstr "Sedang Mengantar"
+
+msgid "On Hold"
+msgstr "Ditahan"
+
+msgid "Delivered"
+msgstr "Terkirim"
+
+msgid "Rejected"
+msgstr "Ditolak"
+
+msgid "Returned"
+msgstr "Dikembalikan"
+
+msgid "Return In Transit"
+msgstr "Pengembalian Dalam Perjalanan"
+
+msgid "Unknown"
+msgstr "Tidak Diketahui"
+
+msgid "Order #%d cannot be shipped because it is not in progress."
+msgstr "Order #%d hanya dapat dikirim apabila status 'Dalam proses'"
+
+msgid "The key that will be used when dealing with Biteship services. You can read how to generate one in <a href='https://biteship.com'>Biteship documentation</a>."
+msgstr "Kunci API yang akan digunakan untuk menggunakan layanan Biteship. Anda dapat mencari tau bagaimana mendapatkan kunci di <a href='https://biteship.com'>artikel berikut</a>."

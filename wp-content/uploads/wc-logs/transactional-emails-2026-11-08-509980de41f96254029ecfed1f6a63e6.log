@@ -1,0 +1,3 @@
+2026-11-08T23:34:18+00:00 WARNING Email "admin_payment_gateway_enabled" failed to send: Tidak dapat membuat instance fungsi mail. CONTEXT: {"email_type":"admin_payment_gateway_enabled","status":"failed","recipient":"admin","WC_Gateway_BACS":null}
+2026-11-08T23:42:49+00:00 WARNING Email "new_order" for order #178 failed to send: Tidak dapat membuat instance fungsi mail. CONTEXT: {"email_type":"new_order","status":"failed","recipient":"admin","order":178}
+2026-11-08T23:42:51+00:00 WARNING Email "customer_on_hold_order" for order #178 failed to send: Tidak dapat membuat instance fungsi mail. CONTEXT: {"email_type":"customer_on_hold_order","status":"failed","recipient":"admin","order":178}

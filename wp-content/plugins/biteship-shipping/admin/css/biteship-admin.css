@@ -1,0 +1,23 @@
+.woocommerce-map {
+    min-height: 16rem;
+}
+
+#woocommerce-store-coordinate-autocomplete,
+#woocommerce-store-coordinate-preview {
+    margin-bottom: 0.5rem;
+    width: 100%;
+}
+
+.pac-container {
+    z-index: 21;
+    position: absolute !important;
+}
+
+#woocommerce-store-coordinate-modal {
+    z-index: 20 !important;
+    position: absolute;
+}
+
+.column-tracking_number {
+    width: 20ch;
+}
